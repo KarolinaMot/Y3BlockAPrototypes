@@ -5,6 +5,12 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Content/Materials/N_Vision.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Content/__ExternalActors__/NewMap/D/34/28SSJ9R0N1XG5AHWU3JD9V.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Content/Materials/M_DoubleVision.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Content/Materials/M_Frozen.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Content/Textures/PerlinBig.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Content/StarterContent/Maps/StarterMap.umap",
 				"D:/GITHUB/Univertsity/Y3A-Prototypes/Prototypes/Content/StarterContent/Architecture/Floor_400x400.uasset",
 				"D:/GITHUB/Univertsity/Y3A-Prototypes/Prototypes/Content/NewMap_HLOD0_Instancing.uasset",
 				"D:/GITHUB/Univertsity/Y3A-Prototypes/Prototypes/Content/__ExternalActors__/NewMap/2/J7/QO5TQORWCXORVK1051S8GH.uasset",
