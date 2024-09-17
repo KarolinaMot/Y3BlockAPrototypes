@@ -1847,9 +1847,9 @@ static const struct
 #line 3 "/Engine/Generated/UniformBuffers/Material.ush"
 cbuffer  UniformBufferConstants_Material 
 {
-	 float4  Material_PreshaderBuffer[6];
+	 float4  Material_PreshaderBuffer[8];
 	 uint BindlessSampler_Material_Wrap_WorldGroupSettings ;
-	 uint  PrePadding_Material_100;
+	 uint  PrePadding_Material_132;
 	 uint BindlessSampler_Material_Clamp_WorldGroupSettings ;
 }
 
@@ -1862,7 +1862,7 @@ SamplerState  Material_Clamp_WorldGroupSettings;
 #line 12 "/Engine/Generated/UniformBuffers/Material.ush"
 static const struct
 {
-	 float4  PreshaderBuffer[6];
+	 float4  PreshaderBuffer[8];
 	SamplerState Wrap_WorldGroupSettings;
 	SamplerState Clamp_WorldGroupSettings;
 } Material = {Material_PreshaderBuffer,Material_Wrap_WorldGroupSettings,Material_Clamp_WorldGroupSettings,};
@@ -3860,8 +3860,226 @@ float4 SceneTextureLookup(float2 UV, int SceneTextureIndex, bool bFiltered)
 	return float4(0, 0, 0, 0);
 }
 
-#line 2803 "/Engine/Generated/Material.ush"
-float CustomExpression0(FMaterialPixelParameters Parameters,float Seed,float CellSize,float Level,float Attenuation,float UVOffset)
+#line 1 "/Project/PerlinNoiseGen.ush"
+struct PerlinNoiseGen
+{
+
+float interpolate(float a0, float a1, float w) {
+    
+
+
+
+    
+    
+    return (a1 - a0) * (3.0 - w * 2.0) * w * w + a0;
+     
+     
+
+
+}
+
+float2 randomGradient(int ix, int iy) {
+    
+    const uint  w = 8 * 32;
+    const uint s = w / 2; 
+    uint a = ix, b = iy;
+    a *= 3284157443; b ^= a << s | a >> w-s;
+    b *= 1911520717; a ^= b << s | b >> w-s;
+    a *= 2048419325;
+    float random = a * (3.14159265 / ~(~0u >> 1)); 
+    float2 v;
+    v.x = cos(random); v.y = sin(random);
+    return v;
+}
+
+
+float dotGridGradient(int ix, int iy, float x, float y) {
+    
+    float2 gradient = randomGradient(ix, iy);
+
+    
+    float dx = x - (float)ix;
+    float dy = y - (float)iy;
+
+    
+    return (dx*gradient.x + dy*gradient.y);
+}
+
+
+float perlinNoise(float2 uv, float seed, float cellSize)
+{
+    
+    int x0 = (int)floor(uv.x);
+    int x1 = x0 + 1;
+    int y0 = (int)floor(uv.y);
+    int y1 = y0 + 1;
+
+    
+    
+    float sx = uv.x - (float)x0;
+    float sy = uv.y - (float)y0;
+
+    
+    float n0, n1, ix0, ix1, value;
+
+    n0 = dotGridGradient(x0, y0, uv.x, uv.y);
+    n1 = dotGridGradient(x1, y0, uv.x, uv.y);
+    ix0 = interpolate(n0, n1, sx);
+
+    n0 = dotGridGradient(x0, y1, uv.x, uv.y);
+    n1 = dotGridGradient(x1, y1, uv.x, uv.y);
+    ix1 = interpolate(n0, n1, sx);
+
+    value = interpolate(ix0, ix1, sy);
+    return value; 
+}
+
+
+float Noise(float2 uv, float seed, float cellSize, float level, float attenuation, float2 uvOffset)
+{
+    
+    uv += uvOffset;
+    uv.x *= cellSize;
+    uv.y *= cellSize;
+
+    
+    float noiseValue = 0.0;
+    float amplitude = 1.0;
+    float frequency = 1.0;
+
+    
+    for (int i = 0; i < level; i++)
+    {
+        noiseValue += perlinNoise(uv * frequency, seed, cellSize) * amplitude;
+        amplitude *= attenuation;
+        frequency *= 2.0; 
+    }
+
+    
+    noiseValue = (noiseValue + 1.0) * 0.5;
+
+    
+    return clamp(noiseValue, 0.f, 1.f);
+}
+};
+
+#line 2804 "/Engine/Generated/Material.ush"
+float CustomExpression0(FMaterialPixelParameters Parameters,float Seed,float CellSize,float Level,float Attenuation,float3 UVOffset)
+{
+PerlinNoiseGen perlinNoise;
+
+float2 uv = GetDefaultSceneTextureUV(Parameters, 14);
+
+float result = perlinNoise.Noise(uv, Seed, CellSize, Level, Attenuation, UVOffset);
+
+return result;
+}
+
+#line 1 "/Project/PerlinNoiseGen.ush"
+struct PerlinNoiseGen
+{
+
+float interpolate(float a0, float a1, float w) {
+    
+
+
+
+    
+    
+    return (a1 - a0) * (3.0 - w * 2.0) * w * w + a0;
+     
+     
+
+
+}
+
+float2 randomGradient(int ix, int iy) {
+    
+    const uint  w = 8 * 32;
+    const uint s = w / 2; 
+    uint a = ix, b = iy;
+    a *= 3284157443; b ^= a << s | a >> w-s;
+    b *= 1911520717; a ^= b << s | b >> w-s;
+    a *= 2048419325;
+    float random = a * (3.14159265 / ~(~0u >> 1)); 
+    float2 v;
+    v.x = cos(random); v.y = sin(random);
+    return v;
+}
+
+
+float dotGridGradient(int ix, int iy, float x, float y) {
+    
+    float2 gradient = randomGradient(ix, iy);
+
+    
+    float dx = x - (float)ix;
+    float dy = y - (float)iy;
+
+    
+    return (dx*gradient.x + dy*gradient.y);
+}
+
+
+float perlinNoise(float2 uv, float seed, float cellSize)
+{
+    
+    int x0 = (int)floor(uv.x);
+    int x1 = x0 + 1;
+    int y0 = (int)floor(uv.y);
+    int y1 = y0 + 1;
+
+    
+    
+    float sx = uv.x - (float)x0;
+    float sy = uv.y - (float)y0;
+
+    
+    float n0, n1, ix0, ix1, value;
+
+    n0 = dotGridGradient(x0, y0, uv.x, uv.y);
+    n1 = dotGridGradient(x1, y0, uv.x, uv.y);
+    ix0 = interpolate(n0, n1, sx);
+
+    n0 = dotGridGradient(x0, y1, uv.x, uv.y);
+    n1 = dotGridGradient(x1, y1, uv.x, uv.y);
+    ix1 = interpolate(n0, n1, sx);
+
+    value = interpolate(ix0, ix1, sy);
+    return value; 
+}
+
+
+float Noise(float2 uv, float seed, float cellSize, float level, float attenuation, float2 uvOffset)
+{
+    
+    uv += uvOffset;
+    uv.x *= cellSize;
+    uv.y *= cellSize;
+
+    
+    float noiseValue = 0.0;
+    float amplitude = 1.0;
+    float frequency = 1.0;
+
+    
+    for (int i = 0; i < level; i++)
+    {
+        noiseValue += perlinNoise(uv * frequency, seed, cellSize) * amplitude;
+        amplitude *= attenuation;
+        frequency *= 2.0; 
+    }
+
+    
+    noiseValue = (noiseValue + 1.0) * 0.5;
+
+    
+    return clamp(noiseValue, 0.f, 1.f);
+}
+};
+
+#line 2817 "/Engine/Generated/Material.ush"
+float CustomExpression1(FMaterialPixelParameters Parameters,float Seed,float CellSize,float Level,float Attenuation,float3 UVOffset)
 {
 struct PerlinNoiseGen
 
@@ -4076,275 +4294,35 @@ float result = perlinNoise.Noise(uv, Seed, CellSize, Level, Attenuation, UVOffse
 return result;
 }
 
-#line 3019 "/Engine/Generated/Material.ush"
-float CustomExpression1(FMaterialPixelParameters Parameters,float Seed,float CellSize,float Level,float Attenuation)
-{
-struct PerlinNoiseGen
-
-{
-
-
-
-float interpolate(float a0, float a1, float w) {
-
-    
-
-
-
-
-
-
-
-    
-
-    
-
-    return (a1 - a0) * (3.0 - w * 2.0) * w * w + a0;
-
-     
-
-     
-
-
-
-
-
-}
-
-
-
-float2 randomGradient(int ix, int iy) {
-
-    
-
-    const uint  w = 8 * 32;
-
-    const uint s = w / 2; 
-
-    uint a = ix, b = iy;
-
-    a *= 3284157443; b ^= a << s | a >> w-s;
-
-    b *= 1911520717; a ^= b << s | b >> w-s;
-
-    a *= 2048419325;
-
-    float random = a * (3.14159265 / ~(~0u >> 1)); 
-
-    float2 v;
-
-    v.x = cos(random); v.y = sin(random);
-
-    return v;
-
-}
-
-
-
-
-
-float dotGridGradient(int ix, int iy, float x, float y) {
-
-    
-
-    float2 gradient = randomGradient(ix, iy);
-
-
-
-    
-
-    float dx = x - (float)ix;
-
-    float dy = y - (float)iy;
-
-
-
-    
-
-    return (dx*gradient.x + dy*gradient.y);
-
-}
-
-
-
-
-
-float perlinNoise(float2 uv, float seed, float cellSize)
-
-{
-
-    
-
-    int x0 = (int)floor(uv.x);
-
-    int x1 = x0 + 1;
-
-    int y0 = (int)floor(uv.y);
-
-    int y1 = y0 + 1;
-
-
-
-    
-
-    
-
-    float sx = uv.x - (float)x0;
-
-    float sy = uv.y - (float)y0;
-
-
-
-    
-
-    float n0, n1, ix0, ix1, value;
-
-
-
-    n0 = dotGridGradient(x0, y0, uv.x, uv.y);
-
-    n1 = dotGridGradient(x1, y0, uv.x, uv.y);
-
-    ix0 = interpolate(n0, n1, sx);
-
-
-
-    n0 = dotGridGradient(x0, y1, uv.x, uv.y);
-
-    n1 = dotGridGradient(x1, y1, uv.x, uv.y);
-
-    ix1 = interpolate(n0, n1, sx);
-
-
-
-    value = interpolate(ix0, ix1, sy);
-
-    return value; 
-
-}
-
-
-
-
-
-float Noise(float2 uv, float seed, float cellSize, float level, float attenuation, float2 uvOffset)
-
-{
-
-    
-
-    uv += uvOffset;
-
-    uv.x *= cellSize;
-
-    uv.y *= cellSize;
-
-
-
-    
-
-    float noiseValue = 0.0;
-
-    float amplitude = 1.0;
-
-    float frequency = 1.0;
-
-
-
-    
-
-    for (int i = 0; i < level; i++)
-
-    {
-
-        noiseValue += perlinNoise(uv * frequency, seed, cellSize) * amplitude;
-
-        amplitude *= attenuation;
-
-        frequency *= 2.0; 
-
-    }
-
-
-
-    
-
-    noiseValue = (noiseValue + 1.0) * 0.5;
-
-
-
-    
-
-    return clamp(noiseValue, 0.f, 1.f);
-
-}
-
-};
-
-
-
-PerlinNoiseGen perlinNoise;
-
-float2 uv = GetDefaultSceneTextureUV(Parameters, 14);
-
-float result = perlinNoise.Noise(uv, Seed, CellSize, Level, Attenuation, UVOffset);
-
-return result;
-}
-
-#line 3235 "/Engine/Generated/Material.ush"
-float3 CustomExpression2(FMaterialPixelParameters Parameters,float4 Color,float3 PerlinNoise,float StrengthMultiplicator)
-{
+#line 1 "/Project/Distortion.ush"
 struct DistortionShader
-
 {
-
-
 
     float3 GetColor(float2 uv)
-
     {
-
-
 
         float4 SceneTexture = SceneTextureLookup(uv, 14, false);
 
-
-
         return SceneTexture.rgb;
-
     }
-
     float3 Distortion(float2 uv, float perlinNoise, float strengthMultiplicator)
-
     {    
-
         
-
         float2 distortion = float2(perlinNoise, perlinNoise) * 0.05 * strengthMultiplicator;
-
         
-
         
-
         float2 distortedUV = clamp(uv + distortion, float2(0.f, 0.f), float2(1.f, 1.f));
-
         
-
         
-
         float3 color = GetColor(distortedUV);
-
         
-
         return color;
-
     }
-
 };
 
-
-
+#line 3034 "/Engine/Generated/Material.ush"
+float3 CustomExpression2(FMaterialPixelParameters Parameters,float4 Color,float3 PerlinNoise,float StrengthMultiplicator)
+{
 DistortionShader shader;
 
 float2 uv = GetDefaultSceneTextureUV(Parameters, 14);
@@ -4358,13 +4336,13 @@ return float4(result, 1.f);
 
 }
 
-#line 3393 "/Engine/Generated/Material.ush"
+#line 3142 "/Engine/Generated/Material.ush"
 float3 GetMaterialNormalRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Normal;
 }
 
-#line 3398 "/Engine/Generated/Material.ush"
+#line 3147 "/Engine/Generated/Material.ush"
 float3 GetMaterialNormal(FMaterialPixelParameters Parameters, FPixelMaterialInputs PixelMaterialInputs)
 {
 	float3 RetNormal;
@@ -4387,13 +4365,13 @@ float3 GetMaterialNormal(FMaterialPixelParameters Parameters, FPixelMaterialInpu
 	return RetNormal;
 }
 
-#line 3430 "/Engine/Generated/Material.ush"
+#line 3179 "/Engine/Generated/Material.ush"
 float3 GetMaterialEmissiveRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.EmissiveColor;
 }
 
-#line 3435 "/Engine/Generated/Material.ush"
+#line 3184 "/Engine/Generated/Material.ush"
 float3 GetMaterialEmissive(FPixelMaterialInputs PixelMaterialInputs)
 {
 	float3 EmissiveColor = GetMaterialEmissiveRaw(PixelMaterialInputs);
@@ -4403,13 +4381,13 @@ float3 GetMaterialEmissive(FPixelMaterialInputs PixelMaterialInputs)
 	return EmissiveColor;
 }
 
-#line 3784 "/Engine/Generated/Material.ush"
+#line 3533 "/Engine/Generated/Material.ush"
 float3 TransformTangentNormalToWorld(float3x3 TangentToWorld, float3 TangentNormal)
 {
 	return normalize(float3(TransformTangentVectorToWorld(TangentToWorld, TangentNormal)));
 }
 
-#line 3845 "/Engine/Generated/Material.ush"
+#line 3594 "/Engine/Generated/Material.ush"
 void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out FPixelMaterialInputs PixelMaterialInputs)
 {
 	
@@ -4461,16 +4439,16 @@ void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out 
 
 	
 	float4 Local0 = SceneTextureLookup(GetDefaultSceneTextureUV(Parameters, 14), 14, false);
-	float Local1 = CustomExpression0(Parameters,Material.PreshaderBuffer[1].y,Material.PreshaderBuffer[1].z,Material.PreshaderBuffer[1].w,Material.PreshaderBuffer[1].x,Material.PreshaderBuffer[2].x);
-	float Local2 = CustomExpression1(Parameters,Material.PreshaderBuffer[1].y,Material.PreshaderBuffer[2].y,Material.PreshaderBuffer[2].z,Material.PreshaderBuffer[2].x);
+	float Local1 = CustomExpression0(Parameters,Material.PreshaderBuffer[2].x,Material.PreshaderBuffer[2].y,Material.PreshaderBuffer[2].z,Material.PreshaderBuffer[2].w,Material.PreshaderBuffer[3].xyz);
+	float Local2 = CustomExpression1(Parameters,Material.PreshaderBuffer[2].x,Material.PreshaderBuffer[3].w,Material.PreshaderBuffer[4].x,Material.PreshaderBuffer[4].y,Material.PreshaderBuffer[3].xyz);
 	float3 Local3 = floor(float4(float3(float2(Local2,Local2),Local2),1.00000000).xyz);
 	float3 Local4 = (float4(float3(float2(Local2,Local2),Local2),1.00000000).xyz - Local3);
 	float3 Local5 = (float3(float2(Local1,Local1),Local1) * Local4);
-	float3 Local6 = CustomExpression2(Parameters,Local0.rgba,Local5,Material.PreshaderBuffer[2].w);
-	float3 Local7 = (Material.PreshaderBuffer[4].xyz * Local5);
+	float3 Local6 = CustomExpression2(Parameters,Local0.rgba,Local5,Material.PreshaderBuffer[4].z);
+	float3 Local7 = (Material.PreshaderBuffer[6].xyz * Local5);
 	float3 Local8 = saturate(Local7);
 	float3 Local9 = (Local6 + Local8);
-	float3 Local10 = lerp(Local9,Material.PreshaderBuffer[5].xyz,Material.PreshaderBuffer[4].w);
+	float3 Local10 = lerp(Local9,Material.PreshaderBuffer[7].xyz,Material.PreshaderBuffer[6].w);
 
 	PixelMaterialInputs.EmissiveColor = Local10;
 	PixelMaterialInputs.Opacity = 1.00000000;
@@ -4499,13 +4477,13 @@ void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out 
 
 }
 
-#line 4213 "/Engine/Generated/Material.ush"
+#line 3962 "/Engine/Generated/Material.ush"
 bool IsOrthoProjection(ViewState InView)
 {
 	return InView.ViewToClip[3][3] >= 1.0f;
 }
 
-#line 4219 "/Engine/Generated/Material.ush"
+#line 3968 "/Engine/Generated/Material.ush"
 void CalcMaterialParametersEx(
 	in out FMaterialPixelParameters Parameters,
 	in out FPixelMaterialInputs PixelMaterialInputs,
@@ -4587,7 +4565,7 @@ void CalcMaterialParametersEx(
 	}
 }
 
-#line 4314 "/Engine/Generated/Material.ush"
+#line 4063 "/Engine/Generated/Material.ush"
 void CalcMaterialParametersPost(
 	in out FMaterialPixelParameters Parameters,
 	in out FPixelMaterialInputs PixelMaterialInputs,
@@ -4685,7 +4663,7 @@ Atmosphere, 11534592
 BlueNoise, 3473677
 OpaqueBasePass, 159911720
 BasePass, 148439296
-Material, 7864576
+Material, 9961728
 NULL, 0
 View_MaterialTextureBilinearWrapedSampler, View, 8, 0
 View_MaterialTextureBilinearClampedSampler, View, 8, 1

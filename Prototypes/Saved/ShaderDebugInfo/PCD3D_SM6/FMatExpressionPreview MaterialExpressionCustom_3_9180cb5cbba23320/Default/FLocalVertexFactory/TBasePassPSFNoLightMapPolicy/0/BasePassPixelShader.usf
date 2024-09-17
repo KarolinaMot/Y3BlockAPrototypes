@@ -2638,9 +2638,9 @@ struct {
 #line 3 "/Engine/Generated/UniformBuffers/Material.ush"
 cbuffer  UniformBufferConstants_Material 
 {
-	 float4  Material_PreshaderBuffer[2];
+	 float4  Material_PreshaderBuffer[4];
 	 uint BindlessSampler_Material_Wrap_WorldGroupSettings ;
-	 uint  PrePadding_Material_36;
+	 uint  PrePadding_Material_68;
 	 uint BindlessSampler_Material_Clamp_WorldGroupSettings ;
 }
 
@@ -2653,7 +2653,7 @@ SamplerState  Material_Clamp_WorldGroupSettings;
 #line 12 "/Engine/Generated/UniformBuffers/Material.ush"
 static const struct
 {
-	 float4  PreshaderBuffer[2];
+	 float4  PreshaderBuffer[4];
 	SamplerState Wrap_WorldGroupSettings;
 	SamplerState Clamp_WorldGroupSettings;
 } Material = {Material_PreshaderBuffer,Material_Wrap_WorldGroupSettings,Material_Clamp_WorldGroupSettings,};
@@ -4172,212 +4172,8 @@ float3 ReflectionAboutCustomWorldNormal(FMaterialPixelParameters Parameters, flo
 }
 
 #line 2803 "/Engine/Generated/Material.ush"
-float CustomExpression0(FMaterialPixelParameters Parameters,float Seed,float CellSize,float Level,float Attenuation)
+float CustomExpression0(FMaterialPixelParameters Parameters,float Seed,float CellSize,float Level,float Attenuation,float3 UVOffset)
 {
-struct PerlinNoiseGen
-
-{
-
-
-
-float interpolate(float a0, float a1, float w) {
-
-    
-
-
-
-
-
-
-
-    
-
-    
-
-    return (a1 - a0) * (3.0 - w * 2.0) * w * w + a0;
-
-     
-
-     
-
-
-
-
-
-}
-
-
-
-float2 randomGradient(int ix, int iy) {
-
-    
-
-    const uint  w = 8 * 32;
-
-    const uint s = w / 2; 
-
-    uint a = ix, b = iy;
-
-    a *= 3284157443; b ^= a << s | a >> w-s;
-
-    b *= 1911520717; a ^= b << s | b >> w-s;
-
-    a *= 2048419325;
-
-    float random = a * (3.14159265 / ~(~0u >> 1)); 
-
-    float2 v;
-
-    v.x = cos(random); v.y = sin(random);
-
-    return v;
-
-}
-
-
-
-
-
-float dotGridGradient(int ix, int iy, float x, float y) {
-
-    
-
-    float2 gradient = randomGradient(ix, iy);
-
-
-
-    
-
-    float dx = x - (float)ix;
-
-    float dy = y - (float)iy;
-
-
-
-    
-
-    return (dx*gradient.x + dy*gradient.y);
-
-}
-
-
-
-
-
-float perlinNoise(float2 uv, float seed, float cellSize)
-
-{
-
-    
-
-    int x0 = (int)floor(uv.x);
-
-    int x1 = x0 + 1;
-
-    int y0 = (int)floor(uv.y);
-
-    int y1 = y0 + 1;
-
-
-
-    
-
-    
-
-    float sx = uv.x - (float)x0;
-
-    float sy = uv.y - (float)y0;
-
-
-
-    
-
-    float n0, n1, ix0, ix1, value;
-
-
-
-    n0 = dotGridGradient(x0, y0, uv.x, uv.y);
-
-    n1 = dotGridGradient(x1, y0, uv.x, uv.y);
-
-    ix0 = interpolate(n0, n1, sx);
-
-
-
-    n0 = dotGridGradient(x0, y1, uv.x, uv.y);
-
-    n1 = dotGridGradient(x1, y1, uv.x, uv.y);
-
-    ix1 = interpolate(n0, n1, sx);
-
-
-
-    value = interpolate(ix0, ix1, sy);
-
-    return value; 
-
-}
-
-
-
-
-
-float Noise(float2 uv, float seed, float cellSize, float level, float attenuation, float2 uvOffset)
-
-{
-
-    
-
-    uv += uvOffset;
-
-    uv.x *= cellSize;
-
-    uv.y *= cellSize;
-
-
-
-    
-
-    float noiseValue = 0.0;
-
-    float amplitude = 1.0;
-
-    float frequency = 1.0;
-
-
-
-    
-
-    for (int i = 0; i < level; i++)
-
-    {
-
-        noiseValue += perlinNoise(uv * frequency, seed, cellSize) * amplitude;
-
-        amplitude *= attenuation;
-
-        frequency *= 2.0; 
-
-    }
-
-
-
-    
-
-    noiseValue = (noiseValue + 1.0) * 0.5;
-
-
-
-    
-
-    return clamp(noiseValue, 0.f, 1.f);
-
-}
-
-};
-
-
-
 PerlinNoiseGen perlinNoise;
 
 float2 uv = GetDefaultSceneTextureUV(Parameters, 14);
@@ -4387,13 +4183,13 @@ float result = perlinNoise.Noise(uv, Seed, CellSize, Level, Attenuation, UVOffse
 return result;
 }
 
-#line 3111 "/Engine/Generated/Material.ush"
+#line 2907 "/Engine/Generated/Material.ush"
 float3 GetMaterialNormalRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Normal;
 }
 
-#line 3116 "/Engine/Generated/Material.ush"
+#line 2912 "/Engine/Generated/Material.ush"
 float3 GetMaterialNormal(FMaterialPixelParameters Parameters, FPixelMaterialInputs PixelMaterialInputs)
 {
 	float3 RetNormal;
@@ -4416,25 +4212,25 @@ float3 GetMaterialNormal(FMaterialPixelParameters Parameters, FPixelMaterialInpu
 	return RetNormal;
 }
 
-#line 3138 "/Engine/Generated/Material.ush"
+#line 2934 "/Engine/Generated/Material.ush"
 float3 GetMaterialTangentRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Tangent;
 }
 
-#line 3143 "/Engine/Generated/Material.ush"
+#line 2939 "/Engine/Generated/Material.ush"
 float3 GetMaterialTangent(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return GetMaterialTangentRaw(PixelMaterialInputs);
 }
 
-#line 3148 "/Engine/Generated/Material.ush"
+#line 2944 "/Engine/Generated/Material.ush"
 float3 GetMaterialEmissiveRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.EmissiveColor;
 }
 
-#line 3153 "/Engine/Generated/Material.ush"
+#line 2949 "/Engine/Generated/Material.ush"
 float3 GetMaterialEmissive(FPixelMaterialInputs PixelMaterialInputs)
 {
 	float3 EmissiveColor = GetMaterialEmissiveRaw(PixelMaterialInputs);
@@ -4444,55 +4240,55 @@ float3 GetMaterialEmissive(FPixelMaterialInputs PixelMaterialInputs)
 	return EmissiveColor;
 }
 
-#line 3168 "/Engine/Generated/Material.ush"
+#line 2964 "/Engine/Generated/Material.ush"
 uint GetMaterialShadingModel(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.ShadingModel;
 }
 
-#line 3173 "/Engine/Generated/Material.ush"
+#line 2969 "/Engine/Generated/Material.ush"
 float3 GetMaterialBaseColorRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.BaseColor;
 }
 
-#line 3178 "/Engine/Generated/Material.ush"
+#line 2974 "/Engine/Generated/Material.ush"
 float3 GetMaterialBaseColor(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return saturate(GetMaterialBaseColorRaw(PixelMaterialInputs));
 }
 
-#line 3183 "/Engine/Generated/Material.ush"
+#line 2979 "/Engine/Generated/Material.ush"
 float GetMaterialMetallicRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Metallic;
 }
 
-#line 3188 "/Engine/Generated/Material.ush"
+#line 2984 "/Engine/Generated/Material.ush"
 float GetMaterialMetallic(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return saturate(GetMaterialMetallicRaw(PixelMaterialInputs));
 }
 
-#line 3193 "/Engine/Generated/Material.ush"
+#line 2989 "/Engine/Generated/Material.ush"
 float GetMaterialSpecularRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Specular;
 }
 
-#line 3198 "/Engine/Generated/Material.ush"
+#line 2994 "/Engine/Generated/Material.ush"
 float GetMaterialSpecular(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return saturate(GetMaterialSpecularRaw(PixelMaterialInputs));
 }
 
-#line 3203 "/Engine/Generated/Material.ush"
+#line 2999 "/Engine/Generated/Material.ush"
 float GetMaterialRoughnessRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Roughness;
 }
 
-#line 3208 "/Engine/Generated/Material.ush"
+#line 3004 "/Engine/Generated/Material.ush"
 float GetMaterialRoughness(FPixelMaterialInputs PixelMaterialInputs)
 {
 
@@ -4510,50 +4306,50 @@ float GetMaterialRoughness(FPixelMaterialInputs PixelMaterialInputs)
 	return Roughness;
 }
 
-#line 3225 "/Engine/Generated/Material.ush"
+#line 3021 "/Engine/Generated/Material.ush"
 float GetMaterialAnisotropyRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Anisotropy;
 }
 
-#line 3230 "/Engine/Generated/Material.ush"
+#line 3026 "/Engine/Generated/Material.ush"
 float GetMaterialAnisotropy(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return clamp(GetMaterialAnisotropyRaw(PixelMaterialInputs), -1.0f, 1.0f);
 }
 
-#line 3272 "/Engine/Generated/Material.ush"
+#line 3068 "/Engine/Generated/Material.ush"
 float GetMaterialOpacityMaskClipValue()
 {
 return 0.50000;
 }
 
-#line 3303 "/Engine/Generated/Material.ush"
+#line 3099 "/Engine/Generated/Material.ush"
 float GetMaterialOpacityRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Opacity;
 }
 
-#line 3325 "/Engine/Generated/Material.ush"
+#line 3121 "/Engine/Generated/Material.ush"
 float GetMaterialOpacity(FPixelMaterialInputs PixelMaterialInputs)
 {
 	
 	return saturate(GetMaterialOpacityRaw(PixelMaterialInputs));
 }
 
-#line 3417 "/Engine/Generated/Material.ush"
+#line 3213 "/Engine/Generated/Material.ush"
 float GetMaterialAmbientOcclusionRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.AmbientOcclusion;
 }
 
-#line 3422 "/Engine/Generated/Material.ush"
+#line 3218 "/Engine/Generated/Material.ush"
 float GetMaterialAmbientOcclusion(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return saturate(GetMaterialAmbientOcclusionRaw(PixelMaterialInputs));
 }
 
-#line 3509 "/Engine/Generated/Material.ush"
+#line 3305 "/Engine/Generated/Material.ush"
 float3 CalculateAnisotropyTangent(in out FMaterialPixelParameters Parameters, FPixelMaterialInputs PixelMaterialInputs)
 {
 	float3 Normal = Parameters.WorldNormal;
@@ -4577,7 +4373,7 @@ float3 CalculateAnisotropyTangent(in out FMaterialPixelParameters Parameters, FP
 	return Tangent;
 }
 
-#line 3563 "/Engine/Generated/Material.ush"
+#line 3359 "/Engine/Generated/Material.ush"
 void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out FPixelMaterialInputs PixelMaterialInputs)
 {
 	
@@ -4628,7 +4424,7 @@ void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out 
 
 
 	
-	float Local0 = CustomExpression0(Parameters,Material.PreshaderBuffer[0].w,Material.PreshaderBuffer[1].x,Material.PreshaderBuffer[1].y,Material.PreshaderBuffer[1].z);
+	float Local0 = CustomExpression0(Parameters,Material.PreshaderBuffer[2].x,Material.PreshaderBuffer[2].y,Material.PreshaderBuffer[2].z,Material.PreshaderBuffer[2].w,Material.PreshaderBuffer[3].xyz);
 	float Local1 = max(Local0,0.00000000);
 	float Local2 = PositiveClampedPow(Local1,0.45454544);
 
@@ -4644,7 +4440,7 @@ void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out 
 	PixelMaterialInputs.Tangent = float3(1.00000000,0.0f,0.0f);
 	PixelMaterialInputs.Subsurface = 0;
 	PixelMaterialInputs.AmbientOcclusion = 1.00000000;
-	PixelMaterialInputs.Refraction = float3(float3(1.00000000,0.0f,0.0f).xy,Material.PreshaderBuffer[1].w);
+	PixelMaterialInputs.Refraction = float3(float3(1.00000000,0.0f,0.0f).xy,Material.PreshaderBuffer[3].w);
 	PixelMaterialInputs.PixelDepthOffset = 1.00000000;
 	PixelMaterialInputs.ShadingModel = 0;
 	PixelMaterialInputs.FrontMaterial = GetInitialisedStrataData();
@@ -4684,32 +4480,32 @@ void ClipLODTransition(FMaterialPixelParameters Parameters, float DitherFactor)
 	ClipLODTransition(Parameters.SvPosition.xy, DitherFactor);
 }
 
-#line 3782 "/Engine/Generated/Material.ush"
+#line 3578 "/Engine/Generated/Material.ush"
 void ClipLODTransition(FMaterialPixelParameters Parameters)
 {
 }
 
-#line 3785 "/Engine/Generated/Material.ush"
+#line 3581 "/Engine/Generated/Material.ush"
 void ClipLODTransition(float2 SvPosition)
 {
 }
 
-#line 3816 "/Engine/Generated/Material.ush"
+#line 3612 "/Engine/Generated/Material.ush"
 void GetMaterialCoverageAndClipping(FMaterialPixelParameters Parameters, FPixelMaterialInputs PixelMaterialInputs)
 {
 	ClipLODTransition(Parameters);
 
-#line 3844 "/Engine/Generated/Material.ush"
+#line 3640 "/Engine/Generated/Material.ush"
 
 }
 
-#line 3915 "/Engine/Generated/Material.ush"
+#line 3711 "/Engine/Generated/Material.ush"
 bool IsOrthoProjection(ViewState InView)
 {
 	return InView.ViewToClip[3][3] >= 1.0f;
 }
 
-#line 3921 "/Engine/Generated/Material.ush"
+#line 3717 "/Engine/Generated/Material.ush"
 void CalcMaterialParametersEx(
 	in out FMaterialPixelParameters Parameters,
 	in out FPixelMaterialInputs PixelMaterialInputs,
@@ -4791,7 +4587,7 @@ void CalcMaterialParametersEx(
 	}
 }
 
-#line 4029 "/Engine/Generated/Material.ush"
+#line 3825 "/Engine/Generated/Material.ush"
 float3x3 AssembleTangentToWorld( float3 TangentToWorld0, float4 TangentToWorld2 )
 {
 	
@@ -4804,7 +4600,7 @@ float3x3 AssembleTangentToWorld( float3 TangentToWorld0, float4 TangentToWorld2 
 	return float3x3(TangentToWorld0, TangentToWorld1, TangentToWorld2.xyz);
 }
 
-#line 4110 "/Engine/Generated/Material.ush"
+#line 3906 "/Engine/Generated/Material.ush"
 float3 GetWorldBentNormalZero(in FMaterialPixelParameters MaterialParameters)
 {
 
@@ -6000,7 +5796,7 @@ ShaderPrintData, 5243136
 LocalVFLooseParameters, 2490654
 LocalVF, 105252632
 InstancedVFLooseParameters, 6291712
-Material, 3670272
+Material, 5767424
 NULL, 0
 View_MaterialTextureBilinearWrapedSampler, View, 8, 0
 View_MaterialTextureBilinearClampedSampler, View, 8, 1

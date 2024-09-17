@@ -6,7 +6,7 @@
 /NAME:"UnrealEditor-Prototypes.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h.obj"
-"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.cpp.obj"
-"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Default.rc2.res"
-/OUT:"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\UnrealEditor-Prototypes.lib"
+"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h.obj"
+"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.cpp.obj"
+"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Default.rc2.res"
+/OUT:"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\UnrealEditor-Prototypes.lib"

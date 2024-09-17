@@ -3860,179 +3860,113 @@ float4 SceneTextureLookup(float2 UV, int SceneTextureIndex, bool bFiltered)
 	return float4(0, 0, 0, 0);
 }
 
-#line 2803 "/Engine/Generated/Material.ush"
-float3 CustomExpression0(FMaterialPixelParameters Parameters,float ShakePower,float ShakeRate,float ShakeSpeed,float ShakeBlockSize,float ShakeColorRate,float2 Resolution,float DeltaTime,float4 Color,float GlitchRate,float GlitchGapTime,float Time)
-{
+#line 1 "/Project/Glitch.ush"
 struct GlitchShader
-
 {
-
     float rand(float2 co)
-
     {
-
         return frac(sin(dot(co.xy, float2(12.9898, 78.233))) * 43758.5453);
-
     }
 
-
-
     float3 GetColor(float2 uv)
-
     {
-
-
 
         float4 SceneTexture = SceneTextureLookup(uv, 14, false);
 
-
-
         return SceneTexture.rgb;
-
     }
-
-
 
     float sineWithGaps(float x, float frequency, float gapTime)
-
     {
-
         
-
         float sineValue = sin(x * frequency);
-
         
-
         
-
         if (fmod(x, gapTime) < gapTime * 0.5)
-
         {
-
             return sineValue; 
-
         }
-
         else
-
         {
-
             return 0.0; 
-
         }
-
     }
 
-
-
-    float3 GlitchEffect( float shakePower, float shakeRate, float shakeSpeed, float shakeBlockSize, float shakeColorRate, float2 uv,  float deltaTime, float time,  float2 resolution, float glitchRate, float glitchGapTime)
-
+    float3 GlitchEffect(float shakePower, float shakeRate, float shakeSpeed, float shakeBlockSize, float shakeColorRate, float2 uv, float deltaTime, float time, float2 resolution, float glitchRate, float glitchGapTime)
     {
-
         float enable_shift = float(
-
-            rand( trunc( deltaTime * shakeSpeed ) )
-
-        <	shakeRate
-
+            rand(trunc(deltaTime * shakeSpeed))
+        < shakeRate
         );
-
-
 
         float2 fixed_uv = uv;
-
         fixed_uv.x += (
-
             rand(
-
-                ( trunc( uv.y * shakeBlockSize ) / shakeBlockSize )
-
-            +	deltaTime
-
+                (trunc(uv.y * shakeBlockSize) / shakeBlockSize)
+            + deltaTime
             ) - 0.5
-
         ) * shakePower * enable_shift;
 
-
-
         
-
-        float glitchLine = rand(float2(uv.y * resolution.y, deltaTime)) * 2.0;
-
-
-
-        
-
+        float glitchLine = rand(float2(uv.y * resolution.y, deltaTime)) * 2.0; 
         if (glitchLine > 1.5)
-
         {
-
             
-
-            fixed_uv.x += sin(deltaTime * 10.0 + fixed_uv.y * 50.0) * 0.1 * glitchLine;
-
+            fixed_uv.x += sin(deltaTime * 60 + fixed_uv.y * 60) * 0.1 * glitchLine;
         }
 
-
-
         float3 pixel_color = GetColor(fixed_uv);
-
         pixel_color.r = lerp(
-
             pixel_color.r
-
-        ,	GetColor(fixed_uv + float2( shakeColorRate, 0.0 )).r
-
-        ,	enable_shift
-
+        , GetColor(fixed_uv + float2(shakeColorRate, 0.0)).r
+        , enable_shift
         );
-
         pixel_color.b = lerp(
-
             pixel_color.b
-
-        ,	GetColor( fixed_uv + float2( -shakeColorRate, 0.0 )).b
-
-        ,	enable_shift
-
+        , GetColor(fixed_uv + float2(-shakeColorRate, 0.0)).b
+        , enable_shift
         );
-
-
 
         float glitchValue = sineWithGaps(time, glitchRate, glitchGapTime);
-
-        if(glitchValue > 0 )
-
-        return pixel_color;
-
+        if (glitchValue > 0)
+            return pixel_color;
         else
-
-        return  GetColor(uv);
-
+            return GetColor(uv);
     }
-
 };
 
+#line 75 "/Project/Glitch.ush"
+GlitchShader shader;
 
+#line 76 "/Project/Glitch.ush"
+float2 uv = GetDefaultSceneTextureUV(Parameters, 14);
 
+#line 77 "/Project/Glitch.ush"
+float4 color = float4(shader.GlitchEffect(ShakePower, ShakeRate, ShakeSpeed, ShakeBlockSize, ShakeColorRate, uv, DeltaTime, Time, Resolution, GlitchRate, GlitchGapTime), 1.f);
+
+#line 78 "/Project/Glitch.ush"
+return
+color;
+
+#line 2804 "/Engine/Generated/Material.ush"
+float3 CustomExpression0(FMaterialPixelParameters Parameters,float ShakePower,float ShakeRate,float ShakeSpeed,float ShakeBlockSize,float ShakeColorRate,float2 Resolution,float DeltaTime,float4 Color,float GlitchRate,float GlitchGapTime,float Time)
+{
 GlitchShader shader;
 
 float2 uv = GetDefaultSceneTextureUV(Parameters, 14);
 
-float4 color = float4(shader.GlitchEffect(ShakePower, ShakeRate, ShakeSpeed, ShakeBlockSize, ShakeColorRate, uv, DeltaTime, Time, GlitchRate, GlitchGapTime), 1.f);
+float4 color = float4(shader.GlitchEffect(ShakePower, ShakeRate, ShakeSpeed, ShakeBlockSize, ShakeColorRate, uv, DeltaTime, Time, Resolution, GlitchRate, GlitchGapTime), 1.f);
 
 return color;
-
-
 }
 
-#line 3061 "/Engine/Generated/Material.ush"
+#line 2908 "/Engine/Generated/Material.ush"
 float3 GetMaterialNormalRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.Normal;
 }
 
-#line 3066 "/Engine/Generated/Material.ush"
+#line 2913 "/Engine/Generated/Material.ush"
 float3 GetMaterialNormal(FMaterialPixelParameters Parameters, FPixelMaterialInputs PixelMaterialInputs)
 {
 	float3 RetNormal;
@@ -4055,13 +3989,13 @@ float3 GetMaterialNormal(FMaterialPixelParameters Parameters, FPixelMaterialInpu
 	return RetNormal;
 }
 
-#line 3098 "/Engine/Generated/Material.ush"
+#line 2945 "/Engine/Generated/Material.ush"
 float3 GetMaterialEmissiveRaw(FPixelMaterialInputs PixelMaterialInputs)
 {
 	return PixelMaterialInputs.EmissiveColor;
 }
 
-#line 3103 "/Engine/Generated/Material.ush"
+#line 2950 "/Engine/Generated/Material.ush"
 float3 GetMaterialEmissive(FPixelMaterialInputs PixelMaterialInputs)
 {
 	float3 EmissiveColor = GetMaterialEmissiveRaw(PixelMaterialInputs);
@@ -4071,13 +4005,13 @@ float3 GetMaterialEmissive(FPixelMaterialInputs PixelMaterialInputs)
 	return EmissiveColor;
 }
 
-#line 3452 "/Engine/Generated/Material.ush"
+#line 3299 "/Engine/Generated/Material.ush"
 float3 TransformTangentNormalToWorld(float3x3 TangentToWorld, float3 TangentNormal)
 {
 	return normalize(float3(TransformTangentVectorToWorld(TangentToWorld, TangentNormal)));
 }
 
-#line 3513 "/Engine/Generated/Material.ush"
+#line 3360 "/Engine/Generated/Material.ush"
 void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out FPixelMaterialInputs PixelMaterialInputs)
 {
 	
@@ -4130,8 +4064,8 @@ void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out 
 	
 	float2 Local0 = View.ViewSizeAndInvSize.xy;
 	float4 Local1 = SceneTextureLookup(GetDefaultSceneTextureUV(Parameters, 14), 14, false);
-	float3 Local2 = CustomExpression0(Parameters,Material.PreshaderBuffer[1].x,Material.PreshaderBuffer[1].y,Material.PreshaderBuffer[1].z,Material.PreshaderBuffer[1].w,Material.PreshaderBuffer[2].x,Local0,View.DeltaTime,Local1.rgba,Material.PreshaderBuffer[2].y,Material.PreshaderBuffer[2].z,View.GameTime);
-	float3 Local3 = lerp(Local2,Material.PreshaderBuffer[3].xyz,Material.PreshaderBuffer[2].w);
+	float3 Local2 = CustomExpression0(Parameters,Material.PreshaderBuffer[1].x,0.20000000,Material.PreshaderBuffer[1].y,10.00000000,Material.PreshaderBuffer[1].z,Local0,View.DeltaTime,Local1.rgba,Material.PreshaderBuffer[1].w,Material.PreshaderBuffer[2].x,View.GameTime);
+	float3 Local3 = lerp(Local2,Material.PreshaderBuffer[3].xyz,Material.PreshaderBuffer[2].y);
 
 	PixelMaterialInputs.EmissiveColor = Local3;
 	PixelMaterialInputs.Opacity = 1.00000000;
@@ -4160,13 +4094,13 @@ void CalcPixelMaterialInputs(in out FMaterialPixelParameters Parameters, in out 
 
 }
 
-#line 3867 "/Engine/Generated/Material.ush"
+#line 3714 "/Engine/Generated/Material.ush"
 bool IsOrthoProjection(ViewState InView)
 {
 	return InView.ViewToClip[3][3] >= 1.0f;
 }
 
-#line 3873 "/Engine/Generated/Material.ush"
+#line 3720 "/Engine/Generated/Material.ush"
 void CalcMaterialParametersEx(
 	in out FMaterialPixelParameters Parameters,
 	in out FPixelMaterialInputs PixelMaterialInputs,
@@ -4248,7 +4182,7 @@ void CalcMaterialParametersEx(
 	}
 }
 
-#line 3968 "/Engine/Generated/Material.ush"
+#line 3815 "/Engine/Generated/Material.ush"
 void CalcMaterialParametersPost(
 	in out FMaterialPixelParameters Parameters,
 	in out FPixelMaterialInputs PixelMaterialInputs,
@@ -4604,5 +4538,5 @@ Material_Clamp_WorldGroupSettings, Material, 8, 1
 NULL, NULL, 0, 0
 #endif /*END_RESOURCE_TABLES*/
 #if 0 /*DIRECT COMPILE*/
--directcompile -format=PCD3D_SM6 -entry=MainPS -shaderPlatformName=PCD3D_SM6 -ps D:/GITHUB/Univertsity/Y3A-Prototypes/Prototypes/Saved/ShaderDebugInfo/PCD3D_SM6/M_Glitch_ab72c02e35827a5c/Default/FPostProcessMaterialPS/0/PostProcessMaterialShaders.usf -cflags=8589938688 -nocrashreports
+-directcompile -format=PCD3D_SM6 -entry=MainPS -shaderPlatformName=PCD3D_SM6 -ps D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Saved/ShaderDebugInfo/PCD3D_SM6/M_Glitch_ab72c02e35827a5c/Default/FPostProcessMaterialPS/0/PostProcessMaterialShaders.usf -cflags=8589938688 -nocrashreports
 #endif /*DIRECT COMPILE*/

@@ -1,11 +1,11 @@
-"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Source\Prototypes\Prototypes.cpp"
-/FI"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h"
-/FI"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Definitions.Prototypes.h"
-/Yu"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h"
-/Fp"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h.pch"
-/Fo"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.cpp.obj"
-/sourceDependencies "D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.cpp.dep.json"
-@"D:\GITHUB\Univertsity\Y3A-Prototypes\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.Shared.rsp"
+"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Source\Prototypes\Prototypes.cpp"
+/FI"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h"
+/FI"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Definitions.Prototypes.h"
+/Yu"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h"
+/Fp"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\PrototypesEditor\Development\Engine\SharedPCH.Engine.Cpp20.h.pch"
+/Fo"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.cpp.obj"
+/sourceDependencies "D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.cpp.dep.json"
+@"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.Shared.rsp"
 /Zc:inline
 /nologo
 /Oi

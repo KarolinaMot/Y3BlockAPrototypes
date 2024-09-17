@@ -1,3 +1,3 @@
 // PCH for Runtime/CoreUObject/Public/CoreUObjectSharedPCH.h
-#include "D:/GITHUB/Univertsity/Y3A-Prototypes/Prototypes/Intermediate/Build/Win64/x64/PrototypesEditor/Development/CoreUObject/SharedDefinitions.CoreUObject.RTTI.Cpp20.h"
+#include "D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes/Intermediate/Build/Win64/x64/PrototypesEditor/Development/CoreUObject/SharedDefinitions.CoreUObject.RTTI.Cpp20.h"
 #include "Runtime/CoreUObject/Public/CoreUObjectSharedPCH.h"
