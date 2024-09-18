@@ -31,19 +31,13 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{ECEE0A84-AF1B-3E31-98AE-C4CE303FAD9D}</UniqueIdentifier>
     </Filter>
-    <None Include="..\..\Shaders\Distortion.hlsl">
+    <None Include="..\..\Shaders\Distortion.ush">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\..\Shaders\Glitch.hlsl">
+    <None Include="..\..\Shaders\NVision.ush">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\..\Shaders\NVision.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Shaders\PerlinNoiseGen.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Shaders\Random.hlsl">
+    <None Include="..\..\Shaders\PerlinNoiseGen.ush">
       <Filter>Shaders</Filter>
     </None>
     <Filter Include="Source\Prototypes">
