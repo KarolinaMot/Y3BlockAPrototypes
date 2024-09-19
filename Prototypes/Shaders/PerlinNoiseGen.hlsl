@@ -1,0 +1,106 @@
+struct PerlinNoiseGen
+{
+
+float interpolate(float a0, float a1, float w) {
+    /* // You may want clamping by inserting:
+     * if (0.0 > w) return a0;
+     * if (1.0 < w) return a1;
+     */
+    //return (a1 - a0) * w + a0;
+    // Use this cubic interpolation [[Smoothstep]] instead, for a smooth appearance:
+    return (a1 - a0) * (3.0 - w * 2.0) * w * w + a0;
+     
+     /* * // Use [[Smootherstep]] for an even smoother result with a second derivative equal to zero on boundaries:
+     * return (a1 - a0) * ((w * (w * 6.0 - 15.0) + 10.0) * w * w * w) + a0;
+     */
+}
+
+float2 randomGradient(int ix, int iy) {
+    // No precomputed gradients mean this works for any number of grid coordinates
+    const uint  w = 8 * 32;
+    const uint s = w / 2; // rotation width
+    uint a = ix, b = iy;
+    a *= 3284157443; b ^= a << s | a >> w-s;
+    b *= 1911520717; a ^= b << s | b >> w-s;
+    a *= 2048419325;
+    float random = a * (3.14159265 / ~(~0u >> 1)); // in [0, 2*Pi]
+    float2 v;
+    v.x = cos(random); v.y = sin(random);
+    return v;
+}
+
+// Computes the dot product of the distance and gradient vectors.
+float dotGridGradient(int ix, int iy, float x, float y) {
+    // Get gradient from integer coordinates
+    float2 gradient = randomGradient(ix, iy);
+
+    // Compute the distance vector
+    float dx = x - (float)ix;
+    float dy = y - (float)iy;
+
+    // Compute the dot-product
+    return (dx*gradient.x + dy*gradient.y);
+}
+
+// Perlin noise function
+float perlinNoise(float2 uv, float seed, float cellSize)
+{
+    // Determine grid cell coordinates
+    int x0 = (int)floor(uv.x);
+    int x1 = x0 + 1;
+    int y0 = (int)floor(uv.y);
+    int y1 = y0 + 1;
+
+    // Determine interpolation weights
+    // Could also use higher order polynomial/s-curve here
+    float sx = uv.x - (float)x0;
+    float sy = uv.y - (float)y0;
+
+    // Interpolate between grid point gradients
+    float n0, n1, ix0, ix1, value;
+
+    n0 = dotGridGradient(x0, y0, uv.x, uv.y);
+    n1 = dotGridGradient(x1, y0, uv.x, uv.y);
+    ix0 = interpolate(n0, n1, sx);
+
+    n0 = dotGridGradient(x0, y1, uv.x, uv.y);
+    n1 = dotGridGradient(x1, y1, uv.x, uv.y);
+    ix1 = interpolate(n0, n1, sx);
+
+    value = interpolate(ix0, ix1, sy);
+    return value; // Will return in range -1 to 1. To make it in range 0 to 1, multiply by 0.5 and add 0.5
+}
+
+// Main pixel shader function
+float Noise(float2 uv, float seed, float cellSize, float level, float attenuation, float2 uvOffset)
+{
+    // Normalize UV coordinates based on the width and height of the area
+    uv += uvOffset;
+    uv.x *= cellSize;
+    uv.y *= cellSize;
+
+    // Calculate the noise value
+    float noiseValue = 0.0;
+    float amplitude = 1.0;
+    float frequency = 1.0;
+
+    // Add layers of Perlin noise based on the level (octaves)
+    for (int i = 0; i < level; i++)
+    {
+        noiseValue += perlinNoise(uv * frequency, seed, cellSize) * amplitude;
+        amplitude *= attenuation;
+        frequency *= 2.0; // Each layer has double the frequency
+    }
+
+    // Normalize the noise value to [0, 1]
+    noiseValue = (noiseValue + 1.0) * 0.5;
+
+    // Return the noise value as grayscale color
+    return clamp(noiseValue, 0.f, 1.f);
+}
+};
+
+PerlinNoiseGen perlinNoise;
+float2 uv = GetDefaultSceneTextureUV(Parameters, 14);
+float result = perlinNoise.Noise(uv, Seed, CellSize, Level, Attenuation, UVOffset);
+return result;
