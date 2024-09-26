@@ -1,0 +1,26 @@
+[
+	{
+		"file": "D:\\GITHUB\\Univertsity\\Y3A-Prototypes\\Prototypes\\Source\\Prototypes\\Prototypes.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.36.32532\\bin\\Hostx64\\x64\\cl.exe",
+			"@D:\\GITHUB\\Univertsity\\Y3A-Prototypes\\Prototypes\\.vscode\\compileCommands_Default\\Prototypes.1.rsp"
+		],
+		"directory": "D:\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "D:\\GITHUB\\Univertsity\\Y3A-Prototypes\\Prototypes\\Source\\Prototypes\\Prototypes.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.36.32532\\bin\\Hostx64\\x64\\cl.exe",
+			"@D:\\GITHUB\\Univertsity\\Y3A-Prototypes\\Prototypes\\.vscode\\compileCommands_Default\\Prototypes.1.rsp"
+		],
+		"directory": "D:\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "D:\\GITHUB\\Univertsity\\Y3A-Prototypes\\Prototypes\\Source\\Prototypes\\Prototypes.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.36.32532\\bin\\Hostx64\\x64\\cl.exe",
+			"@D:\\GITHUB\\Univertsity\\Y3A-Prototypes\\Prototypes\\.vscode\\compileCommands_Default\\Prototypes.1.rsp"
+		],
+		"directory": "D:\\Epic Games\\UE_5.3\\Engine\\Source"
+	}
+]

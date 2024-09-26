@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-Prototypes.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"..\Intermediate\Build\Win64\x64\UnrealEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.NoValFmtStr.ValApi.Cpp20.InclOrderUnreal5_3.h.obj"
+"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\Prototypes.cpp.obj"
+"..\Intermediate\Build\Win64\x64\UnrealEditor\Development\Default.rc2.res"
+/OUT:"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Intermediate\Build\Win64\x64\UnrealEditor\Development\Prototypes\UnrealEditor-Prototypes.lib"
