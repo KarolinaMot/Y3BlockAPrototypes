@@ -1,0 +1,22 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\source\\prototypes\\prototypes.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\github\\ue5\\unrealengine\\engine\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unrealed\\sharedpch.unrealed.project.novalfmtstr.valapi.cpp20.inclorderunreal5_3.h.pch",
+        "Includes": [
+            "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\prototypes\\definitions.prototypes.h",
+            "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\source\\prototypes\\prototypes.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\interfaces\\ipluginmanager.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\plugindescriptor.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\custombuildsteps.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\localizationdescriptor.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\moduledescriptor.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\plugindisalloweddescriptor.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\pluginreferencedescriptor.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\projects\\public\\versescope.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
