@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\..\..\..\..\..\UE5\UnrealEngine\Engine\Source\Programs\UnrealBuildTool\UnrealBuildTool.csproj"><Private>false</Private></ProjectReference>
   </ItemGroup>
   <ItemGroup>
+  <Compile Include="..\..\..\..\Source\CustomModule\CustomModule.build.cs"><Link>Source\CustomModule\CustomModule.build.cs</Link></Compile>
   <Compile Include="..\..\..\..\Source\Prototypes.Target.cs"><Link>Source\Prototypes.Target.cs</Link></Compile>
   <Compile Include="..\..\..\..\Source\PrototypesEditor.Target.cs"><Link>Source\PrototypesEditor.Target.cs</Link></Compile>
   <Compile Include="..\..\..\..\Source\Prototypes\Prototypes.Build.cs"><Link>Source\Prototypes\Prototypes.Build.cs</Link></Compile>

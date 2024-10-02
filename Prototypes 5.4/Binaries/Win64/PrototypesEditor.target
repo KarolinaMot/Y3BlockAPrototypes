@@ -6606,6 +6606,14 @@
 			"Type": "RequiredResource"
 		},
 		{
+			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor-CustomModule.dll",
+			"Type": "DynamicLibrary"
+		},
+		{
+			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor-CustomModule.pdb",
+			"Type": "SymbolFile"
+		},
+		{
 			"Path": "$(ProjectDir)/Binaries/Win64/UnrealEditor-Prototypes.dll",
 			"Type": "DynamicLibrary"
 		},

@@ -8,6 +8,11 @@
 			"Name": "Prototypes",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+  			"Name": "CustomModule",
+  			"Type": "Runtime",
+  			"LoadingPhase": "PostConfigInit"
 		}
 	],
 	"Plugins": [

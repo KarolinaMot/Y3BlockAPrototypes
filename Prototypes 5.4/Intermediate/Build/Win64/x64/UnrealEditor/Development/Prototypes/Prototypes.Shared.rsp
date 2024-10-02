@@ -1,5 +1,4 @@
 /I "."
-/I "D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes"
 /I "D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Source"
 /I "Runtime\Core\Public"
 /I "Runtime\Core\Internal"
@@ -283,6 +282,8 @@
 /I "Editor\SceneDepthPickerMode\Public"
 /I "..\Intermediate\Build\Win64\UnrealEditor\Inc\AnimationEditMode\UHT"
 /I "Editor\AnimationEditMode\Public"
+/I "Runtime\Renderer\Private"
+/I "D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Source\CustomModule\Public"
 /external:W0
 /external:I "ThirdParty\LibTiff\Source\Win64"
 /external:I "ThirdParty\LibTiff\Source"

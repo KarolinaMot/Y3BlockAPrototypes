@@ -11,9 +11,6 @@
     <None Include="..\..\Source\PrototypesEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
-    <None Include="..\..\.ignore" />
-    <None Include="..\..\.vsconfig" />
-    <None Include="..\..\Prototypes.code-workspace" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,30 @@
     <None Include="..\..\Shaders\Random.hlsl">
       <Filter>Shaders</Filter>
     </None>
+    <Filter Include="Source\CustomModule">
+      <UniqueIdentifier>{3771C5E5-DA12-32DD-985D-16F55C70E1C3}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\CustomModule\CustomModule.build.cs">
+      <Filter>Source\CustomModule</Filter>
+    </None>
+    <Filter Include="Source\CustomModule\Private">
+      <UniqueIdentifier>{082AAB21-F72E-3F11-BE13-8C487CC6F7E0}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\CustomModule\Private\CustomModule.cpp">
+      <Filter>Source\CustomModule\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CustomModule\Private\Shader.cpp">
+      <Filter>Source\CustomModule\Private</Filter>
+    </ClCompile>
+    <Filter Include="Source\CustomModule\Public">
+      <UniqueIdentifier>{109AAD1D-2C3D-32D3-970C-A48FFD1E9106}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h">
+      <Filter>Source\CustomModule\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CustomModule\Public\Shader.h">
+      <Filter>Source\CustomModule\Public</Filter>
+    </ClInclude>
     <Filter Include="Source\Prototypes">
       <UniqueIdentifier>{CB7488B8-3843-3032-8606-865849BEC409}</UniqueIdentifier>
     </Filter>

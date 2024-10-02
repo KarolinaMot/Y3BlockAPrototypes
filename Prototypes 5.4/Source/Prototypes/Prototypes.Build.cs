@@ -8,7 +8,7 @@ public class Prototypes : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "RenderCore", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "RenderCore", "CoreUObject", "Engine", "InputCore", "CustomModule" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
         PublicIncludePaths.AddRange(new string[] { "D:\\GITHUB\\Univertsity\\Y3A-Prototype\\Prototypes" });

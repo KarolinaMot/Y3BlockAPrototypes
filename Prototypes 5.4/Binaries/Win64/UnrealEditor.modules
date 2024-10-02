@@ -2,6 +2,7 @@
 	"BuildId": "40a8769d-0348-48d1-aa7b-2a6d6d114709",
 	"Modules": 
 	{
+		"CustomModule": "UnrealEditor-CustomModule.dll",
 		"Prototypes": "UnrealEditor-Prototypes.dll"
 	}
 }
