@@ -8,6 +8,7 @@
 /NODEFAULTLIB
 "..\Intermediate\Build\Win64\x64\UnrealEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.NoValFmtStr.ValApi.Cpp20.InclOrderUnreal5_3.h.obj"
 "D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Intermediate\Build\Win64\x64\UnrealEditor\Development\CustomModule\CustomModule.cpp.obj"
+"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Intermediate\Build\Win64\x64\UnrealEditor\Development\CustomModule\MyViewExtension.cpp.obj"
 "D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Intermediate\Build\Win64\x64\UnrealEditor\Development\CustomModule\Shader.cpp.obj"
 "..\Intermediate\Build\Win64\x64\UnrealEditor\Development\Default.rc2.res"
 /OUT:"D:\GITHUB\Univertsity\Y3A-Prototype\Prototypes 5.4\Intermediate\Build\Win64\x64\UnrealEditor\Development\CustomModule\UnrealEditor-CustomModule.lib"

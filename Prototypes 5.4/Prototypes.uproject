@@ -7,12 +7,15 @@
 		{
 			"Name": "Prototypes",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
 		},
 		{
-  			"Name": "CustomModule",
-  			"Type": "Runtime",
-  			"LoadingPhase": "PostConfigInit"
+			"Name": "CustomModule",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit"
 		}
 	],
 	"Plugins": [

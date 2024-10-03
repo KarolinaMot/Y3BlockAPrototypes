@@ -1,3 +1,4 @@
+#pragma once
 #include "GlobalShader.h"
 #include "Runtime/Renderer/Public/ScreenPass.h"
 

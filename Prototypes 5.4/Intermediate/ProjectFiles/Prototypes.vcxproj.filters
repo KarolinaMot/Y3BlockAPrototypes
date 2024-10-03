@@ -11,6 +11,7 @@
     <None Include="..\..\Source\PrototypesEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\.vsconfig" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
     </Filter>
@@ -71,9 +72,21 @@
     <ClInclude Include="..\..\Source\CustomModule\Public\Shader.h">
       <Filter>Source\CustomModule\Public</Filter>
     </ClInclude>
+    <Filter Include="Source\CustomModule\Shaders">
+      <UniqueIdentifier>{A4975D48-8953-3E20-8C59-69DD49B55AD1}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\CustomModule\Shaders\Shaders.usf">
+      <Filter>Source\CustomModule\Shaders</Filter>
+    </None>
     <Filter Include="Source\Prototypes">
       <UniqueIdentifier>{CB7488B8-3843-3032-8606-865849BEC409}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\Prototypes\CustomPass.cpp">
+      <Filter>Source\Prototypes</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Prototypes\CustomPass.h">
+      <Filter>Source\Prototypes</Filter>
+    </ClInclude>
     <None Include="..\..\Source\Prototypes\Prototypes.Build.cs">
       <Filter>Source\Prototypes</Filter>
     </None>
