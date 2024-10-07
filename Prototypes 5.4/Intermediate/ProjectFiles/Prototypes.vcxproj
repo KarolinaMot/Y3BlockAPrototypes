@@ -651,11 +651,16 @@
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CustomModule\Private\MyViewExtension.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
     <ClCompile Include="..\..\Source\CustomModule\Private\Shader.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h"/>
+    <ClInclude Include="..\..\Source\CustomModule\Public\MyViewExtension.h"/>
     <ClInclude Include="..\..\Source\CustomModule\Public\Shader.h"/>
     <None Include="..\..\Source\CustomModule\Shaders\Shaders.usf"/>
     <ClCompile Include="..\..\Source\Prototypes\CustomPass.cpp">

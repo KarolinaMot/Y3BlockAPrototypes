@@ -3,7 +3,6 @@
 #include "SceneViewExtension.h"
 
 class CUSTOMMODULE_API FMyViewExtension : public FSceneViewExtensionBase {
-	FLinearColor HighlightColor;
 public:
 	FMyViewExtension(const FAutoRegister& AutoRegister, FLinearColor CustomColor);
 
@@ -16,4 +15,6 @@ public:
 	virtual void PostRenderBasePass_RenderThread(FRHICommandListImmediate& RHICmdList, FSceneView& InView) override {};
 	virtual void PrePostProcessPass_RenderThread(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) override;
 	//~ End FSceneViewExtensionBase Interface
+	FLinearColor HighlightColor;
+
 };

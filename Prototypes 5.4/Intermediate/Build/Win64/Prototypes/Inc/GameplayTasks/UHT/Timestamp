@@ -1,0 +1,8 @@
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\GameplayTaskOwnerInterface.h
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\GameplayTaskResource.h
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\Tasks\GameplayTask_ClaimResource.h
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\GameplayTasksComponent.h
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\GameplayTask.h
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\Tasks\GameplayTask_WaitDelay.h
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\Tasks\GameplayTask_TimeLimitedExecution.h
+D:\GITHUB\UE5\UnrealEngine\Engine\Source\Runtime\GameplayTasks\Classes\Tasks\GameplayTask_SpawnActor.h

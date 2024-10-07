@@ -66,29 +66,11 @@ void FMyViewExtension::PrePostProcessPass_RenderThread(FRDGBuilder& GraphBuilder
 	UVMaskRenderTarget.Texture = GraphBuilder.CreateTexture((*Inputs.SceneTextures)->SceneColorTexture->Desc, TEXT("UV Mask"));
 
 	// Shader setup
-	TShaderMapRef<FUVMaskShaderPS> UVMaskPixelShader(GlobalShaderMap);
-	FUVMaskShaderPS::FParameters* UVMaskParameters = GraphBuilder.AllocParameters<FUVMaskShaderPS::FParameters>();
-	UVMaskParameters->SceneColor = (*Inputs.SceneTextures)->SceneColorTexture;
-	UVMaskParameters->InputStencilTexture = GraphBuilder.CreateSRV(FRDGTextureSRVDesc::CreateWithPixelFormat((*Inputs.SceneTextures)->CustomDepthTexture, PF_X24_G8));
-	UVMaskParameters->InputSampler = TStaticSamplerState<SF_Point, AM_Clamp, AM_Clamp, AM_Clamp>::GetRHI();
-	UVMaskParameters->ViewParams = SceneTextureViewportParams;
-	UVMaskParameters->RenderTargets[0] = UVMaskRenderTarget.GetRenderTargetBinding();
-	UVMaskParameters->RenderTargets[1] = SceneColorCopyRenderTarget.GetRenderTargetBinding();
-
-	FPixelShaderUtils::AddFullscreenPass(
-		GraphBuilder,
-		GlobalShaderMap,
-		FRDGEventName(TEXT("UV Mask")),
-		UVMaskPixelShader,
-		UVMaskParameters,
-		Viewport);
-
-	// Shader setup
 	TShaderMapRef<FCombineShaderPS> CombinePixelShader(GlobalShaderMap);
 	FCombineShaderPS::FParameters* CombineParameters = GraphBuilder.AllocParameters<FCombineShaderPS::FParameters>();
-	CombineParameters->SceneColor = SceneColorCopyRenderTarget.Texture;
-	CombineParameters->InputTexture = UVMaskRenderTarget.Texture;
+	CombineParameters->SceneColor = (*Inputs.SceneTextures)->SceneColorTexture;
 	CombineParameters->InputSampler = TStaticSamplerState<SF_Point, AM_Clamp, AM_Clamp, AM_Clamp>::GetRHI();
+	CombineParameters->InputStencilTexture = (*Inputs.SceneTextures)->CustomDepthTexture;
 	CombineParameters->Color = HighlightColor;
 	CombineParameters->ViewParams = SceneTextureViewportParams;
 	CombineParameters->RenderTargets[0] = FRenderTargetBinding(SceneColor.Texture, ERenderTargetLoadAction::ELoad);
@@ -99,5 +81,4 @@ void FMyViewExtension::PrePostProcessPass_RenderThread(FRDGBuilder& GraphBuilder
 		FRDGEventName(TEXT("Combine")),
 		CombinePixelShader,
 		CombineParameters,
-		Viewport);
-}
+		Viewport);}

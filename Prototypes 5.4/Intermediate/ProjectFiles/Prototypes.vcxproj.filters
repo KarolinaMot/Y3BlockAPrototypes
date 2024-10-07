@@ -60,6 +60,9 @@
     <ClCompile Include="..\..\Source\CustomModule\Private\CustomModule.cpp">
       <Filter>Source\CustomModule\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CustomModule\Private\MyViewExtension.cpp">
+      <Filter>Source\CustomModule\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\CustomModule\Private\Shader.cpp">
       <Filter>Source\CustomModule\Private</Filter>
     </ClCompile>
@@ -67,6 +70,9 @@
       <UniqueIdentifier>{109AAD1D-2C3D-32D3-970C-A48FFD1E9106}</UniqueIdentifier>
     </Filter>
     <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h">
+      <Filter>Source\CustomModule\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CustomModule\Public\MyViewExtension.h">
       <Filter>Source\CustomModule\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CustomModule\Public\Shader.h">
