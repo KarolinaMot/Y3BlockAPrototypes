@@ -17,13 +17,15 @@ float2 PosToUV(float2 Pos) {
 float4 CombineMainPS(float4 SvPosition : SV_POSITION) : SV_Target0 {
 	float2 UV = PosToUV(SvPosition.xy);
     float2 stencil = Texture2DSample(InputStencilTexture, InputSampler, UV).rg;
-
+    float4 sceneColor = SceneColor.SampleLevel(InputSampler, UV, 0);
+    
 	if(stencil.y > 0 || stencil.x >0)
     {
-        return Color;
+        float3 result = Color.rgb * sceneColor.rgb;
+        return float4(result, 1.f);
     }
     else
     {
-        return SceneColor.SampleLevel(InputSampler, UV, 0);
+        return sceneColor;
     }
 }

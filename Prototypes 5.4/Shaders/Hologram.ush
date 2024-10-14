@@ -1,0 +1,14 @@
+struct HologramShader
+{
+    float3 Hologram(float3 BaseColor, float FresnelValue, float Time, float LineSpeed, float LineSpacing, float LineWidth, float3 WorldPos, float LineSmoothness, float DarkBandFactor)
+    {
+        float movingY = WorldPos.z - Time * LineSpeed;
+        float bandValue = sin(movingY / LineWidth * 3.14159);
+        bandValue = smoothstep(-LineSmoothness, LineSmoothness, bandValue);
+
+        float3 lineColorDark = DarkBandFactor * BaseColor;
+        BaseColor = lerp(BaseColor, lineColorDark, bandValue); 
+
+        return BaseColor * FresnelValue;
+    }
+};

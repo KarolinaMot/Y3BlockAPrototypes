@@ -1,0 +1,6 @@
+#include "/Engine/Public/Platform.ush"
+
+float4 Main(float4 SvPosition : SV_POSITION) : SV_Target0
+{
+    return float4(200.f, 1.f, 1.f, 1.f);
+}

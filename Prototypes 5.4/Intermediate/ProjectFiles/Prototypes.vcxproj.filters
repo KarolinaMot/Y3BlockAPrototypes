@@ -11,6 +11,7 @@
     <None Include="..\..\Source\PrototypesEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\.gitignore" />
     <None Include="..\..\.vsconfig" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
@@ -60,10 +61,13 @@
     <ClCompile Include="..\..\Source\CustomModule\Private\CustomModule.cpp">
       <Filter>Source\CustomModule\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CustomModule\Private\HologramShader.cpp">
+      <Filter>Source\CustomModule\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\CustomModule\Private\MyViewExtension.cpp">
       <Filter>Source\CustomModule\Private</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CustomModule\Private\Shader.cpp">
+    <ClCompile Include="..\..\Source\CustomModule\Private\StencilPostPrShader.cpp">
       <Filter>Source\CustomModule\Private</Filter>
     </ClCompile>
     <Filter Include="Source\CustomModule\Public">
@@ -72,15 +76,21 @@
     <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h">
       <Filter>Source\CustomModule\Public</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\CustomModule\Public\HologramShader.h">
+      <Filter>Source\CustomModule\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\CustomModule\Public\MyViewExtension.h">
       <Filter>Source\CustomModule\Public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CustomModule\Public\Shader.h">
+    <ClInclude Include="..\..\Source\CustomModule\Public\StencilPostPrShader.h">
       <Filter>Source\CustomModule\Public</Filter>
     </ClInclude>
     <Filter Include="Source\CustomModule\Shaders">
       <UniqueIdentifier>{A4975D48-8953-3E20-8C59-69DD49B55AD1}</UniqueIdentifier>
     </Filter>
+    <None Include="..\..\Source\CustomModule\Shaders\Hologram.usf">
+      <Filter>Source\CustomModule\Shaders</Filter>
+    </None>
     <None Include="..\..\Source\CustomModule\Shaders\Shaders.usf">
       <Filter>Source\CustomModule\Shaders</Filter>
     </None>

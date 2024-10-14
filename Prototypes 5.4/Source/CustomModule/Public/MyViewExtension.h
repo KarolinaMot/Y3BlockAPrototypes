@@ -17,4 +17,8 @@ public:
 	//~ End FSceneViewExtensionBase Interface
 	FLinearColor HighlightColor;
 
+private:
+	void RenderHologram(FRHICommandListImmediate& RHICmdList, FSceneView& View);
+
+	UMaterialInterface* HologramMaterial;
 };

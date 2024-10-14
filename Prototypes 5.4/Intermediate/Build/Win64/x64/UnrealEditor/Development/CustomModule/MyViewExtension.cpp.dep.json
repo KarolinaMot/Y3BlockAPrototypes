@@ -12,7 +12,7 @@
             "d:\\github\\ue5\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\sceneviewextensioncontext.generated.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\engine\\public\\scenetexturesconfig.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\rendercore\\public\\gbufferinfo.h",
-            "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\source\\custommodule\\public\\shader.h",
+            "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\source\\custommodule\\public\\stencilpostprshader.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\public\\screenpass.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\engine\\public\\canvastypes.h",
             "d:\\github\\ue5\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\canvastypes.generated.h",
@@ -110,7 +110,9 @@
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\private\\postprocess\\scenerendertargets.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\private\\pathtracing.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\internal\\pathtracingresources.h",
-            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\internal\\postprocess\\postprocessinputs.h"
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\internal\\postprocess\\postprocessinputs.h",
+            "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\source\\custommodule\\public\\hologramshader.h",
+            "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\engine\\public\\materials\\materialrenderproxy.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
