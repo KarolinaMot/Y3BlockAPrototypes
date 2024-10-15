@@ -1,0 +1,28 @@
+struct Fog
+{
+    float GetDepth(float2 uv, float sceneSize)
+    {
+        float4 SceneTexture = SceneTextureLookup(uv, 1, false);
+
+        return saturate(SceneTexture.r / 3000);
+    }
+
+        float3 GetColor(float2 uv)
+    {
+
+        float4 SceneTexture = SceneTextureLookup(uv, 0, false);
+
+        return SceneTexture.rgb;
+    }
+
+    float3 GetFog(float2 uv, float fogFar, float fogIntensity, float3 fogColor,float3 smokeColor, float noise)
+    {
+        float sceneDepth = GetDepth(uv, fogFar);
+        float depthFog = smoothstep(0.f, fogFar, sceneDepth);
+        float3 sceneColor = GetColor(uv);
+        float finalFogIntensity = depthFog * fogIntensity;
+        float3 fogRes = fogColor + noise * smokeColor;
+        float3 finalColor = lerp(sceneColor, fogRes, finalFogIntensity);
+        return finalColor;
+    }
+};
