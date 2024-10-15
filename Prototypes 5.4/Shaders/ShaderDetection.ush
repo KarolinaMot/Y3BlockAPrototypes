@@ -1,0 +1,86 @@
+struct DetectEdges
+{
+    float3 GetNormal(float2 uv)
+    {
+
+        float4 SceneTexture = SceneTextureLookup(uv, 8, false);
+
+        return SceneTexture.rgb;
+    }
+
+    float GetDepth(float2 uv, float depthPrecision)
+    {
+
+        float4 SceneTexture = SceneTextureLookup(uv, 1, false);
+
+        return saturate(SceneTexture.r / depthPrecision);
+    }
+
+    float3 GetColor(float2 uv)
+    {
+
+        float4 SceneTexture = SceneTextureLookup(uv, 0, false);
+
+        return SceneTexture.rgb;
+    }
+
+    float IsEdge(float2 uv, float3 color, float EdgeThickness, float2 screenSize, float depthBias, float depthPrecision)
+    {
+        float2 pixelSize = EdgeThickness / screenSize;
+        float2 sobelMatrix[9] = {float2(-1, -0.5f), float2(0, -1), float2(1,-0.5f),
+                                float2(-1, 0), float2(0,0), float2(1,0),
+                                float2(-1, 0.5f), float2(0,1), float2(1,0.5f)};
+        
+        float2 gradients = float2(0.f, 0.f);
+
+        for(int i=0; i<9; i++)
+        {
+            int row = i/3;
+            int col = i%3;
+
+            float offsetX = (col -1) *pixelSize.x;
+            float offsetY = (row -1) *pixelSize.y;
+
+            float2 offsetUV = float2(uv.x + offsetX, uv.y + offsetY);
+            
+
+            float depth = GetDepth(offsetUV, depthPrecision);
+            float3 normal = GetNormal(offsetUV);
+            float3 sampledIntensity = float3(normal.x, normal.y, depth);
+            gradients+= sobelMatrix[i] * depth;
+        }
+
+        gradients *= EdgeThickness;
+
+        return length(gradients);
+    }
+    
+    float3 DetectEdge(float2 uv, float3 color, float EdgeThickness, float2 screenSize, float depthBias, float depthPrecision, float3 noise, float noiseStrength, float3 tendrilColor, bool DebugLines)
+    {
+        float2 pixelSize = EdgeThickness / screenSize;
+        float edge = IsEdge(uv, color, EdgeThickness, screenSize, depthBias, depthPrecision);
+        float3 sceneColor =  GetColor(uv);
+        edge = clamp(edge, 0.f, 1.f);
+
+        if(DebugLines)
+        {
+            return tendrilColor * edge > depthBias ? tendrilColor * edge : float3(0.f, 0.f, 0.f);
+        }
+
+        float3 result = sceneColor + tendrilColor * noise * noiseStrength * edge;
+        return edge > depthBias ? result : sceneColor;
+
+        // if(edge > depthBias)
+        // {
+        //     if(DebugLines)
+        //     return tendrilColor * edge;
+        //     else
+        //     return tendrilColor * noise * noiseStrength * edge;
+
+        // }
+        // else
+        // {
+        //     return GetColor(uv);
+        // }
+    }
+};
