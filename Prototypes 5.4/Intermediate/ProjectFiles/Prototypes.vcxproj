@@ -632,27 +632,28 @@
     <ClCompile_ForcedIncludeFiles_1>$(ProjectForcedIncludeFiles);$(SolutionDir)Intermediate\Build\Win64\x64\UnrealEditorGPF\Development\Prototypes\Definitions.Prototypes.h</ClCompile_ForcedIncludeFiles_1>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\Prototypes.uproject" />
-    <None Include="..\..\Source\Prototypes.Target.cs" />
-    <None Include="..\..\Source\PrototypesEditor.Target.cs" />
-    <None Include="..\..\.gitignore" />
-    <None Include="..\..\.vsconfig" />
-    <None Include="..\..\Config\DefaultEditor.ini" />
-    <None Include="..\..\Config\DefaultEngine.ini" />
-    <None Include="..\..\Config\DefaultGame.ini" />
-    <None Include="..\..\Config\DefaultInput.ini" />
-    <None Include="..\..\Shaders\Distortion.ush" />
-    <None Include="..\..\Shaders\Glitch.hlsl" />
-    <None Include="..\..\Shaders\Glitch.ush" />
-    <None Include="..\..\Shaders\NVision.ush" />
-    <None Include="..\..\Shaders\PerlinNoiseGen.ush" />
-    <None Include="..\..\Shaders\Random.hlsl" />
-    <None Include="..\..\Source\CustomModule\CustomModule.build.cs" />
-    <ClCompile Include="..\..\Source\CustomModule\Private\CustomModule.cpp">
+    <None Include="..\..\Prototypes.uproject"/>
+    <None Include="..\..\Source\Prototypes.Target.cs"/>
+    <None Include="..\..\Source\PrototypesEditor.Target.cs"/>
+    <None Include="..\..\.gitignore"/>
+    <None Include="..\..\.vsconfig"/>
+    <None Include="..\..\Config\DefaultEditor.ini"/>
+    <None Include="..\..\Config\DefaultEngine.ini"/>
+    <None Include="..\..\Config\DefaultGame.ini"/>
+    <None Include="..\..\Config\DefaultInput.ini"/>
+    <None Include="..\..\Shaders\Distortion.ush"/>
+    <None Include="..\..\Shaders\Fog.ush"/>
+    <None Include="..\..\Shaders\Glitch.ush"/>
+    <None Include="..\..\Shaders\Hologram.ush"/>
+    <None Include="..\..\Shaders\NVision.ush"/>
+    <None Include="..\..\Shaders\PerlinNoiseGen.ush"/>
+    <None Include="..\..\Shaders\ShaderDetection.ush"/>
+    <None Include="..\..\Source\CustomModule\CustomModule.build.cs"/>
+    <ClCompile Include="..\..\Source\CustomModule\Private\AuraShader.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CustomModule\Private\HologramShader.cpp">
+    <ClCompile Include="..\..\Source\CustomModule\Private\CustomModule.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
@@ -664,31 +665,30 @@
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
-    <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h" />
-    <ClInclude Include="..\..\Source\CustomModule\Public\HologramShader.h" />
-    <ClInclude Include="..\..\Source\CustomModule\Public\MyViewExtension.h" />
-    <ClInclude Include="..\..\Source\CustomModule\Public\StencilPostPrShader.h" />
-    <None Include="..\..\Source\CustomModule\Shaders\Hologram.usf" />
-    <None Include="..\..\Source\CustomModule\Shaders\Shaders.usf" />
+    <ClInclude Include="..\..\Source\CustomModule\Public\AuraShader.h"/>
+    <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h"/>
+    <ClInclude Include="..\..\Source\CustomModule\Public\MyViewExtension.h"/>
+    <ClInclude Include="..\..\Source\CustomModule\Public\StencilPostPrShader.h"/>
+    <None Include="..\..\Source\CustomModule\Shaders\Aura.usf"/>
+    <None Include="..\..\Source\CustomModule\Shaders\Shaders.usf"/>
     <ClCompile Include="..\..\Source\Prototypes\CustomPass.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_1)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_1)</ForcedIncludeFiles>
     </ClCompile>
-    <ClInclude Include="..\..\Source\Prototypes\CustomPass.h" />
-    <None Include="..\..\Source\Prototypes\Prototypes.Build.cs" />
+    <ClInclude Include="..\..\Source\Prototypes\CustomPass.h"/>
+    <None Include="..\..\Source\Prototypes\Prototypes.Build.cs"/>
     <ClCompile Include="..\..\Source\Prototypes\Prototypes.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_1)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_1)</ForcedIncludeFiles>
     </ClCompile>
-    <ClInclude Include="..\..\Source\Prototypes\Prototypes.h" />
+    <ClInclude Include="..\..\Source\Prototypes\Prototypes.h"/>
   </ItemGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <PropertyGroup>
     <CleanDependsOn> $(CleanDependsOn); </CleanDependsOn>
-    <CppCleanDependsOn>
-    </CppCleanDependsOn>
+    <CppCleanDependsOn></CppCleanDependsOn>
   </PropertyGroup>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -21,9 +21,33 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditAnywhere)
+	FLinearColor TendrilEdgeColor;
 
 	UPROPERTY(EditAnywhere)
-	FLinearColor PassColor;
+	float DepthBias = 0.9f;
+
+	UPROPERTY(EditAnywhere)
+	float EdgeThickness = 3.8f;
+
+	UPROPERTY(EditAnywhere)
+	float EdgeIntensity = 415.f;
+
+	UPROPERTY(EditAnywhere)
+	float NoiseSize = 5.f;
+
+	UPROPERTY(EditAnywhere)
+	float NoiseStrength = 2.f;
+
+	UPROPERTY(EditAnywhere)
+	float NoiseMovementSpeed = 0.2f;
+
+	UPROPERTY(EditAnywhere)
+	bool DebugLines = false;
+
+	UPROPERTY(EditAnywhere)
+	UTexture2D* NoiseTex = nullptr;
+
 
 	TSharedPtr<class FMyViewExtension, ESPMode::ThreadSafe> MyViewExtension;
 	

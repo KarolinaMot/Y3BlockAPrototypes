@@ -34,10 +34,13 @@
     <None Include="..\..\Shaders\Distortion.ush">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\..\Shaders\Glitch.hlsl">
+    <None Include="..\..\Shaders\Fog.ush">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Shaders\Glitch.ush">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\Hologram.ush">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Shaders\NVision.ush">
@@ -46,7 +49,7 @@
     <None Include="..\..\Shaders\PerlinNoiseGen.ush">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\..\Shaders\Random.hlsl">
+    <None Include="..\..\Shaders\ShaderDetection.ush">
       <Filter>Shaders</Filter>
     </None>
     <Filter Include="Source\CustomModule">
@@ -58,10 +61,10 @@
     <Filter Include="Source\CustomModule\Private">
       <UniqueIdentifier>{082AAB21-F72E-3F11-BE13-8C487CC6F7E0}</UniqueIdentifier>
     </Filter>
-    <ClCompile Include="..\..\Source\CustomModule\Private\CustomModule.cpp">
+    <ClCompile Include="..\..\Source\CustomModule\Private\AuraShader.cpp">
       <Filter>Source\CustomModule\Private</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CustomModule\Private\HologramShader.cpp">
+    <ClCompile Include="..\..\Source\CustomModule\Private\CustomModule.cpp">
       <Filter>Source\CustomModule\Private</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\CustomModule\Private\MyViewExtension.cpp">
@@ -73,10 +76,10 @@
     <Filter Include="Source\CustomModule\Public">
       <UniqueIdentifier>{109AAD1D-2C3D-32D3-970C-A48FFD1E9106}</UniqueIdentifier>
     </Filter>
-    <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h">
+    <ClInclude Include="..\..\Source\CustomModule\Public\AuraShader.h">
       <Filter>Source\CustomModule\Public</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CustomModule\Public\HologramShader.h">
+    <ClInclude Include="..\..\Source\CustomModule\Public\CustomModule.h">
       <Filter>Source\CustomModule\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CustomModule\Public\MyViewExtension.h">
@@ -88,7 +91,7 @@
     <Filter Include="Source\CustomModule\Shaders">
       <UniqueIdentifier>{A4975D48-8953-3E20-8C59-69DD49B55AD1}</UniqueIdentifier>
     </Filter>
-    <None Include="..\..\Source\CustomModule\Shaders\Hologram.usf">
+    <None Include="..\..\Source\CustomModule\Shaders\Aura.usf">
       <Filter>Source\CustomModule\Shaders</Filter>
     </None>
     <None Include="..\..\Source\CustomModule\Shaders\Shaders.usf">

@@ -69,18 +69,5 @@ struct DetectEdges
 
         float3 result = sceneColor + tendrilColor * noise * noiseStrength * edge;
         return edge > depthBias ? result : sceneColor;
-
-        // if(edge > depthBias)
-        // {
-        //     if(DebugLines)
-        //     return tendrilColor * edge;
-        //     else
-        //     return tendrilColor * noise * noiseStrength * edge;
-
-        // }
-        // else
-        // {
-        //     return GetColor(uv);
-        // }
     }
 };

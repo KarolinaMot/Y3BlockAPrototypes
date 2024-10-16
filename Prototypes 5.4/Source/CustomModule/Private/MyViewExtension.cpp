@@ -1,9 +1,9 @@
 #include "MyViewExtension.h"
 #include "StencilPostPrShader.h"
+#include "AuraShader.h"
 
 #include "PixelShaderUtils.h"
 #include "PostProcess/PostProcessing.h"
-#include "HologramShader.h"
 #include "Materials/MaterialRenderProxy.h"
 
 // Yoinked from Engine\Plugins\Experimental\ColorCorrectRegions\Source\ColorCorrectRegions\Private\ColorCorrectRegionsSceneViewExtension.cpp
@@ -43,14 +43,86 @@ FScreenPassTextureViewportParameters GetTextureViewportParameters(const FScreenP
 }
 
 
-FMyViewExtension::FMyViewExtension(const FAutoRegister& AutoRegister, FLinearColor CustomColor) : FSceneViewExtensionBase(AutoRegister) {
-	HighlightColor = CustomColor;
+FMyViewExtension::FMyViewExtension(const FAutoRegister& AutoRegister, FLinearColor tendrilEdgeColor, float depthBias, float edgeThickness, float edgeIntensity, float noiseSize, float noiseStrength, float movementSpeed, UTexture2D* texture) : FSceneViewExtensionBase(AutoRegister) {
+	TendrilEdgeColor = tendrilEdgeColor;
+	DepthBias = depthBias;
+	EdgeThickness = edgeThickness;
+	NoiseSize = noiseSize;
+	NoiseStrength = noiseStrength;
+	NoiseTex = texture;
+	EdgeIntensity = edgeIntensity;
+	MovementSpeed = movementSpeed;
 }
 
 void FMyViewExtension::PrePostProcessPass_RenderThread(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) {
 	if ((*Inputs.SceneTextures)->CustomDepthTexture->Desc.Format != PF_DepthStencil) return; // This check was only necessary in UE5 - see below
 
 	checkSlow(View.bIsViewInfo); // can't do dynamic_cast because FViewInfo doesn't have any virtual functions.
+	RenderAuraEffect(GraphBuilder, View, Inputs);
+}
+
+void FMyViewExtension::SetHighlightColor(const FLinearColor& color)
+{
+	HighlightColor = color;
+}
+
+void FMyViewExtension::SetTendrilEdgeColor(const FLinearColor& color)
+{
+	TendrilEdgeColor = color;
+}
+
+void FMyViewExtension::SetDepthBias(const float& bias)
+{
+	DepthBias = bias;
+}
+
+void FMyViewExtension::SetEdgeThickness(const float& thickness)
+{
+	EdgeThickness = thickness;
+}
+
+void FMyViewExtension::SetEdgeIntensity(const float& intensity)
+{
+	EdgeIntensity = intensity;
+}
+
+void FMyViewExtension::SetSceneDepthSize(const float& size)
+{
+	SceneDepthSize = size;
+}
+
+void FMyViewExtension::SetNoiseSize(const float& size)
+{
+	NoiseSize = size;
+}
+
+void FMyViewExtension::SetNoiseStrength(const float& strength)
+{
+	NoiseStrength = strength;
+}
+
+void FMyViewExtension::SetTime(const float& time)
+{
+	Time = time;
+}
+
+void FMyViewExtension::SetMovementSpeed(const float& speed)
+{
+	MovementSpeed = speed;
+}
+
+void FMyViewExtension::SetDebugLines(const bool& debug)
+{
+	DebugLines = static_cast<uint32_t>(debug);
+}
+
+void FMyViewExtension::SetNoiseTexture(UTexture2D* tex)
+{
+	NoiseTex = tex;
+}
+
+const void FMyViewExtension::RenderCustomStencil(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) const
+{
 	const FIntRect Viewport = static_cast<const FViewInfo&>(View).ViewRect;
 	FScreenPassTexture SceneColor((*Inputs.SceneTextures)->SceneColorTexture, Viewport);
 	FGlobalShaderMap* GlobalShaderMap = GetGlobalShaderMap(GMaxRHIFeatureLevel);
@@ -84,67 +156,58 @@ void FMyViewExtension::PrePostProcessPass_RenderThread(FRDGBuilder& GraphBuilder
 		CombinePixelShader,
 		CombineParameters,
 		Viewport);
+
 }
 
-//void FMyViewExtension::RenderHologram(FRHICommandListImmediate& RHICmdList, FSceneView& View)
-//{
-//	// Get the material's render proxy
-//	FMaterialRenderProxy* MaterialRenderProxy = HologramMaterial->GetRenderProxy();
-//
-//	// Ensure the proxy is valid
-//	if (!MaterialRenderProxy)
-//	{
-//		return;
-//	}
-//
-//	// Get the FMaterial associated with the render proxy for the given feature level
-//	const FMaterial* Material = MaterialRenderProxy->GetMaterialNoFallback(View.GetFeatureLevel());
-//
-//	if (!Material || !Material->GetRenderingThreadShaderMap())
-//	{
-//		return;
-//	}
-//
-//	// Retrieve the custom shader from the material's shader map
-//	TShaderRef<FHologramShaderPS> PixelShader = Material->GetRenderingThreadShaderMap()->GetShader<FHologramShaderPS>();
-//
-//	// Set up the graphics pipeline and use the custom shader
-//	FGraphicsPipelineStateInitializer GraphicsPSOInit;
-//	RHICmdList.ApplyCachedRenderTargets(GraphicsPSOInit);
-//	GraphicsPSOInit.BlendState = TStaticBlendState<>::GetRHI();
-//	GraphicsPSOInit.RasterizerState = TStaticRasterizerState<>::GetRHI();
-//	GraphicsPSOInit.DepthStencilState = TStaticDepthStencilState<false, CF_Always>::GetRHI();
-//	GraphicsPSOInit.BoundShaderState.PixelShaderRHI = PixelShader.GetPixelShader();
-//
-//	SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
-//
-//	// Bind shader parameters, etc.
-//	//SetShaderParameters(RHICmdList, PixelShader, PixelShader.GetPixelShader(), View);
-//	// Create a FMeshElementCollector to get a PDI (Primitive Draw Interface)
-//	FMeshElementCollector Collector;
-//
-//	// Get the PDI from the Collector for the current view index (0 for single view)
-//	FPrimitiveDrawInterface* PDI = Collector.GetPDI(0);
-//
-//	// Define the center position of the rectangle in world space.
-//	FVector Center = FVector(0.0f, 0.0f, 100.0f); // Adjust Z to place it above ground
-//
-//	// Define the X and Y axes for the orientation of the rectangle.
-//	FVector XAxis = FVector(1.0f, 0.0f, 0.0f); // Along the X-axis
-//	FVector YAxis = FVector(0.0f, 1.0f, 0.0f); // Along the Y-axis
-//
-//	// Define the size of the rectangle.
-//	float Width = 200.0f;   // Width along the X-axis
-//	float Height = 100.0f;  // Height along the Y-axis
-//
-//	// Set the color, depth priority, and other properties.
-//	FColor Color = FColor::Green;
-//	uint8 DepthPriority = SDPG_World;  // Draw in the world space depth priority group
-//	float Thickness = 2.0f;            // Line thickness
-//	float DepthBias = 0.0f;            // No depth bias for simplicity
-//	bool bScreenSpace = false;         // Draw in world space, not screen space
-//
-//	// Call the DrawRectangle function with the above parameters.
-//	DrawRectangle(PDI, Center, XAxis, YAxis, Color, Width, Height, DepthPriority, Thickness, DepthBias, bScreenSpace);
-//	
-//}
+const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) const
+{
+	if (NoiseTex ==nullptr)
+		return;
+
+	const FIntRect Viewport = static_cast<const FViewInfo&>(View).ViewRect;
+	FScreenPassTexture SceneColor((*Inputs.SceneTextures)->SceneColorTexture, Viewport);
+	FGlobalShaderMap* GlobalShaderMap = GetGlobalShaderMap(GMaxRHIFeatureLevel);
+
+	RDG_EVENT_SCOPE(GraphBuilder, "Aura Render Pass");
+
+	// Viewport parameters
+	const FScreenPassTextureViewport SceneColorTextureViewport(SceneColor);
+	const FScreenPassTextureViewportParameters SceneTextureViewportParams = GetTextureViewportParameters(SceneColorTextureViewport);
+
+	// Render targets
+	FScreenPassRenderTarget SceneColorCopyRenderTarget;
+	SceneColorCopyRenderTarget.Texture = GraphBuilder.CreateTexture((*Inputs.SceneTextures)->SceneColorTexture->Desc, TEXT("Scene Color Copy"));
+	FScreenPassRenderTarget UVMaskRenderTarget;
+	UVMaskRenderTarget.Texture = GraphBuilder.CreateTexture((*Inputs.SceneTextures)->SceneColorTexture->Desc, TEXT("UV Mask"));
+	FTextureResource* TextureResource = NoiseTex->GetResource();
+	FTextureRHIRef TextureRHI = TextureResource->TextureRHI;
+	auto noiseTexture = GraphBuilder.RegisterExternalTexture(CreateRenderTarget(TextureRHI, TEXT("NoiseTexture")));
+
+	// Shader setup
+	TShaderMapRef<FAuraShaderPS> AuraPixelShader(GlobalShaderMap);
+	FAuraShaderPS::FParameters* AuraParameters = GraphBuilder.AllocParameters<FAuraShaderPS::FParameters>();
+	AuraParameters->SceneColor = (*Inputs.SceneTextures)->SceneColorTexture;
+	AuraParameters->SceneDepth = (*Inputs.SceneTextures)->SceneDepthTexture;
+	AuraParameters->InputSampler = TStaticSamplerState<SF_Point, AM_Wrap, AM_Wrap, AM_Wrap>::GetRHI();
+	AuraParameters->LineColor = TendrilEdgeColor;
+	AuraParameters->DepthBias = DepthBias;
+	AuraParameters->SceneDepthSize = SceneDepthSize;
+	AuraParameters->EdgeThickness = EdgeThickness;
+	AuraParameters->EdgeIntensity = EdgeIntensity;
+	AuraParameters->NoiseSize = NoiseSize;
+	AuraParameters->NoiseStrength = NoiseStrength;
+	AuraParameters->MovementSpeed = MovementSpeed;
+	AuraParameters->Time = Time;
+	AuraParameters->DebugLines = DebugLines;
+	AuraParameters->Noise = noiseTexture;
+	AuraParameters->ViewParams = SceneTextureViewportParams;
+	AuraParameters->RenderTargets[0] = FRenderTargetBinding(SceneColor.Texture, ERenderTargetLoadAction::ELoad);
+
+	FPixelShaderUtils::AddFullscreenPass(
+		GraphBuilder,
+		GlobalShaderMap,
+		FRDGEventName(TEXT("Aura")),
+		AuraPixelShader,
+		AuraParameters,
+		Viewport);
+}

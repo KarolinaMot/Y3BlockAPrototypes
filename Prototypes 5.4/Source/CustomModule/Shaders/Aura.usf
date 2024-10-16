@@ -1,0 +1,87 @@
+#include "/Engine/Public/Platform.ush"
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ScreenPass.ush"
+
+SCREEN_PASS_TEXTURE_VIEWPORT(ViewParams)
+
+SamplerState InputSampler;
+Texture2D SceneColor;
+Texture2D SceneDepth;
+Texture2D Noise;
+float4 LineColor;
+float EdgeThickness;
+float EdgeIntensity;
+float DepthBias;
+float SceneDepthSize;
+float NoiseSize;
+float NoiseStrength;
+float Time;
+float MovementSpeed;
+uint DebugLines;
+
+float2 PosToUV(float2 Pos);
+float Edge(float2 uv);
+float2 GetMovementDirection(float2 uv);
+
+float4 AuraMainPS(float4 SvPosition : SV_POSITION) : SV_Target0
+{
+    float2 ScreenUV = PosToUV(SvPosition).xy;
+    float edge = saturate(Edge(ScreenUV));
+    float4 sceneColor = SceneColor.SampleLevel(InputSampler, ScreenUV, 0);
+    float2 noiseMovementVelocity = float2(1.f, 1.f) * MovementSpeed;
+    float noise = Noise.SampleLevel(InputSampler, ScreenUV * NoiseSize + noiseMovementVelocity, 0).r;
+
+    if(DebugLines)
+       return edge >= DepthBias ? edge * LineColor : float4(0.f, 0.f, 0.f, 1.f);
+    
+    float3 result = sceneColor.rgb + LineColor.rgb * noise * NoiseStrength * edge;
+    return edge >= DepthBias ? float4(result, 1.f) : sceneColor;
+}
+
+float2 PosToUV(float2 Pos)
+{
+    float2 ViewportUV = ((Pos - ViewParams_ViewportMin.xy) * ViewParams_ViewportSizeInverse.xy);
+    return ViewportUV * ViewParams_UVViewportSize + ViewParams_UVViewportMin;
+}
+
+float2 GetMovementDirection(float2 uv)
+{
+    float2 result = float2(-1.f, -1.f);
+    if (uv.x < 0.5f)
+        result.x *= -1;
+    if (uv.y < 0.5f)
+        result.y *= -1;
+
+    return result;
+}
+
+float Edge(float2 uv)
+{
+    float2 pixelSize = EdgeThickness / ViewParams_ViewportSize;
+    float2 sobelMatrix[9] =
+    {
+        float2(-1, -0.5f), float2(0, -1), float2(1, -0.5f),
+        float2(-1, 0), float2(0, 0), float2(1, 0),
+        float2(-1, 0.5f), float2(0, 1), float2(1, 0.5f)
+    };
+        
+    float2 gradients = float2(0.f, 0.f);
+
+    for (int i = 0; i < 9; i++)
+    {
+        int row = i / 3;
+        int col = i % 3;
+
+        float offsetX = (col - 1) * pixelSize.x;
+        float offsetY = (row - 1) * pixelSize.y;
+
+        float2 offsetUV = float2(uv.x + offsetX, uv.y + offsetY);
+           
+        float depth = SceneDepth.SampleLevel(InputSampler, offsetUV, 0);
+        gradients += sobelMatrix[i] * depth;
+    }
+
+    gradients *= EdgeIntensity;
+
+    return length(gradients);
+}
