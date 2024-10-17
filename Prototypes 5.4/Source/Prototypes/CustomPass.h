@@ -48,6 +48,26 @@ public:
 	UPROPERTY(EditAnywhere)
 	UTexture2D* NoiseTex = nullptr;
 
+	UPROPERTY(EditAnywhere)
+	UTexture2D* FogNoiseTex = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	FLinearColor FogColor;
+
+	UPROPERTY(EditAnywhere)
+	FLinearColor FogSmokeColor;
+
+	UPROPERTY(EditAnywhere)
+	float FogMovementSpeed;
+
+	UPROPERTY(EditAnywhere)
+	float FogDensity;
+
+	UPROPERTY(EditAnywhere)
+	float FogFar;
+
+	UPROPERTY(EditAnywhere)
+	float FogNoiseScale;
 
 	TSharedPtr<class FMyViewExtension, ESPMode::ThreadSafe> MyViewExtension;
 	

@@ -121,6 +121,17 @@ void FMyViewExtension::SetNoiseTexture(UTexture2D* tex)
 	NoiseTex = tex;
 }
 
+void FMyViewExtension::SetFogParameters(UTexture2D* fogNoise, float fogFar, float fogDensity, float fogMovementSpeed, float fogNoiseScale, const FLinearColor& fogColor, const FLinearColor& fogSmokeColor)
+{
+	FogNoise = fogNoise;
+	FogFar = fogFar;
+	FogDensity = fogDensity;
+	FogMovementSpeed = fogMovementSpeed;
+	FogColor = fogColor;
+	FogSmokeColor = fogSmokeColor;
+	FogNoiseScale = fogNoiseScale;
+}
+
 const void FMyViewExtension::RenderCustomStencil(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) const
 {
 	const FIntRect Viewport = static_cast<const FViewInfo&>(View).ViewRect;
@@ -161,7 +172,7 @@ const void FMyViewExtension::RenderCustomStencil(FRDGBuilder& GraphBuilder, cons
 
 const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) const
 {
-	if (NoiseTex ==nullptr)
+	if (NoiseTex == nullptr || FogNoise == nullptr)
 		return;
 
 	const FIntRect Viewport = static_cast<const FViewInfo&>(View).ViewRect;
@@ -183,6 +194,10 @@ const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const F
 	FTextureRHIRef TextureRHI = TextureResource->TextureRHI;
 	auto noiseTexture = GraphBuilder.RegisterExternalTexture(CreateRenderTarget(TextureRHI, TEXT("NoiseTexture")));
 
+	FTextureResource* FogTextureRes = FogNoise->GetResource();
+	FTextureRHIRef FogTextureRHI = FogTextureRes->TextureRHI;
+	auto fogTex = GraphBuilder.RegisterExternalTexture(CreateRenderTarget(FogTextureRHI, TEXT("FogNoiseTexture")));
+
 	// Shader setup
 	TShaderMapRef<FAuraShaderPS> AuraPixelShader(GlobalShaderMap);
 	FAuraShaderPS::FParameters* AuraParameters = GraphBuilder.AllocParameters<FAuraShaderPS::FParameters>();
@@ -190,6 +205,8 @@ const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const F
 	AuraParameters->SceneDepth = (*Inputs.SceneTextures)->SceneDepthTexture;
 	AuraParameters->InputSampler = TStaticSamplerState<SF_Point, AM_Wrap, AM_Wrap, AM_Wrap>::GetRHI();
 	AuraParameters->LineColor = TendrilEdgeColor;
+	AuraParameters->FogSmokeColor = FogSmokeColor;
+	AuraParameters->FogColor = FogColor;
 	AuraParameters->DepthBias = DepthBias;
 	AuraParameters->SceneDepthSize = SceneDepthSize;
 	AuraParameters->EdgeThickness = EdgeThickness;
@@ -198,8 +215,13 @@ const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const F
 	AuraParameters->NoiseStrength = NoiseStrength;
 	AuraParameters->MovementSpeed = MovementSpeed;
 	AuraParameters->Time = Time;
+	AuraParameters->FogMovementSpeed = FogMovementSpeed;
+	AuraParameters->FogDensity = FogDensity;
+	AuraParameters->FogFar = FogFar;
+	AuraParameters->FogNoiseScale = FogNoiseScale;
 	AuraParameters->DebugLines = DebugLines;
 	AuraParameters->Noise = noiseTexture;
+	AuraParameters->FogNoise = fogTex;
 	AuraParameters->ViewParams = SceneTextureViewportParams;
 	AuraParameters->RenderTargets[0] = FRenderTargetBinding(SceneColor.Texture, ERenderTargetLoadAction::ELoad);
 

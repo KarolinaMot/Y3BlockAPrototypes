@@ -28,6 +28,7 @@ public:
 	void SetMovementSpeed(const float& speed);
 	void SetDebugLines(const bool& debug);
 	void SetNoiseTexture(UTexture2D* tex);
+	void SetFogParameters(UTexture2D* fogNoise, float fogFar, float fogDensity, float fogMovementSpeed, float FogNoiseScale, const FLinearColor& fogColor, const FLinearColor& fogSmokeColor);
 
 private:
 	const void RenderCustomStencil(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) const;
@@ -35,6 +36,8 @@ private:
 	FLinearColor HighlightColor;
 
 	FLinearColor TendrilEdgeColor;
+	FLinearColor FogColor;
+	FLinearColor FogSmokeColor;
 	float DepthBias;
 	float EdgeThickness;
 	float EdgeIntensity;
@@ -43,7 +46,11 @@ private:
 	float Time = 0;
 	float MovementSpeed;
 	float NoiseStrength;
-
+	float FogMovementSpeed;
+	float FogDensity;
+	float FogFar;
+	float FogNoiseScale;
 	uint32_t DebugLines;
 	UTexture2D* NoiseTex;
+	UTexture2D* FogNoise;
 };

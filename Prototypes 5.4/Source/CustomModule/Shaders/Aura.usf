@@ -8,7 +8,10 @@ SamplerState InputSampler;
 Texture2D SceneColor;
 Texture2D SceneDepth;
 Texture2D Noise;
+Texture2D FogNoise;
 float4 LineColor;
+float4 FogColor;
+float4 FogSmokeColor;
 float EdgeThickness;
 float EdgeIntensity;
 float DepthBias;
@@ -17,11 +20,16 @@ float NoiseSize;
 float NoiseStrength;
 float Time;
 float MovementSpeed;
+float FogMovementSpeed;
+float FogDensity;
+float FogNoiseScale;
+float FogFar;
 uint DebugLines;
 
 float2 PosToUV(float2 Pos);
 float Edge(float2 uv);
 float2 GetMovementDirection(float2 uv);
+float3 GetFog(float2 uv, float3 sceneColor);
 
 float4 AuraMainPS(float4 SvPosition : SV_POSITION) : SV_Target0
 {
@@ -30,13 +38,30 @@ float4 AuraMainPS(float4 SvPosition : SV_POSITION) : SV_Target0
     float4 sceneColor = SceneColor.SampleLevel(InputSampler, ScreenUV, 0);
     float2 noiseMovementVelocity = GetMovementDirection(ScreenUV) * MovementSpeed * Time;
     float noise = Noise.SampleLevel(InputSampler, ScreenUV * NoiseSize + noiseMovementVelocity, 0).r;
-
+    float3 fog = GetFog(ScreenUV, sceneColor.rgb);
+    
     if(DebugLines)
        return edge >= DepthBias ? edge * LineColor : float4(0.f, 0.f, 0.f, 1.f);
     
-    float3 result = sceneColor.rgb + LineColor.rgb * noise * NoiseStrength * edge;
-    return edge >= DepthBias ? float4(result, 1.f) : sceneColor;
+    float3 edgeColor = LineColor.rgb * noise * NoiseStrength * edge;
+    return edge >= DepthBias ? float4(edgeColor + fog, 1.f) : float4(fog, 1.f);
+    //return float4(fog, 1.f);
 }
+
+float3 GetFog(float2 uv, float3 sceneColor)
+{
+    float sceneDepth = SceneDepth.Sample(InputSampler, uv);
+    float depthFog = smoothstep(0.f, FogFar, sceneDepth);
+    float finalFogIntensity = saturate(1 - depthFog * FogDensity);
+    
+    float2 fogUV = uv * FogNoiseScale + float2(0.f, FogMovementSpeed) * Time;
+    float3 noise = FogNoise.Sample(InputSampler, fogUV);
+    
+    float3 fogRes = FogColor.rgb + noise * FogSmokeColor.rgb;
+    float3 finalColor = lerp(sceneColor, fogRes, finalFogIntensity);
+    return finalColor;
+}
+
 
 float2 PosToUV(float2 Pos)
 {

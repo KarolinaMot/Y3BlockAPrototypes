@@ -42,5 +42,6 @@ void ACustomPass::Tick(float DeltaTime)
 	MyViewExtension->SetNoiseTexture(NoiseTex);
 	MyViewExtension->SetMovementSpeed(NoiseMovementSpeed);
 	MyViewExtension->SetTime(GetWorld()->GetTimeSeconds());
+	MyViewExtension->SetFogParameters(FogNoiseTex, FogFar, FogDensity, FogMovementSpeed, FogNoiseScale, FogColor, FogSmokeColor);
 }
 
