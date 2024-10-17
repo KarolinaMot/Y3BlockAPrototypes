@@ -28,7 +28,7 @@ float4 AuraMainPS(float4 SvPosition : SV_POSITION) : SV_Target0
     float2 ScreenUV = PosToUV(SvPosition).xy;
     float edge = saturate(Edge(ScreenUV));
     float4 sceneColor = SceneColor.SampleLevel(InputSampler, ScreenUV, 0);
-    float2 noiseMovementVelocity = float2(1.f, 1.f) * MovementSpeed;
+    float2 noiseMovementVelocity = GetMovementDirection(ScreenUV) * MovementSpeed * Time;
     float noise = Noise.SampleLevel(InputSampler, ScreenUV * NoiseSize + noiseMovementVelocity, 0).r;
 
     if(DebugLines)
