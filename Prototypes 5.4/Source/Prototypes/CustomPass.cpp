@@ -3,6 +3,8 @@
 
 #include "CustomPass.h"
 #include "MyViewExtension.h"
+#include "Engine/Scene.h"  // For FSceneView
+#include "SceneView.h"     // For FViewMatrices
 
 // Sets default values
 ACustomPass::ACustomPass()
@@ -42,6 +44,7 @@ void ACustomPass::Tick(float DeltaTime)
 	MyViewExtension->SetNoiseTexture(NoiseTex);
 	MyViewExtension->SetMovementSpeed(NoiseMovementSpeed);
 	MyViewExtension->SetTime(GetWorld()->GetTimeSeconds());
-	MyViewExtension->SetFogParameters(FogNoiseTex, FogFar, FogDensity, FogMovementSpeed, FogNoiseScale, FogColor, FogSmokeColor);
+	MyViewExtension->SetFogParameters(FogNoiseTex, FogFar, FogNear, FogDensity, FogMovementSpeed, FogNoiseScale, FogColor, FogSmokeColor);
+	MyViewExtension->SetEffectRadius(CircleRadius, CircleCenter, CircleBlend);
 }
 

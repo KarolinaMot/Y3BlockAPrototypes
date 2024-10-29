@@ -28,7 +28,8 @@ public:
 	void SetMovementSpeed(const float& speed);
 	void SetDebugLines(const bool& debug);
 	void SetNoiseTexture(UTexture2D* tex);
-	void SetFogParameters(UTexture2D* fogNoise, float fogFar, float fogDensity, float fogMovementSpeed, float FogNoiseScale, const FLinearColor& fogColor, const FLinearColor& fogSmokeColor);
+	void SetFogParameters(UTexture2D* fogNoise, float fogFar, float fogNear, float fogDensity, float fogMovementSpeed, float FogNoiseScale, const FLinearColor& fogColor, const FLinearColor& fogSmokeColor);
+	void SetEffectRadius(float circleRadius, FVector2f cirlceCenter, float circleEdge);
 
 private:
 	const void RenderCustomStencil(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) const;
@@ -49,7 +50,11 @@ private:
 	float FogMovementSpeed;
 	float FogDensity;
 	float FogFar;
+	float FogNear;
 	float FogNoiseScale;
+	FVector2f CircleCenter;
+	float CircleRadius;
+	float CircleBlend;
 	uint32_t DebugLines;
 	UTexture2D* NoiseTex;
 	UTexture2D* FogNoise;

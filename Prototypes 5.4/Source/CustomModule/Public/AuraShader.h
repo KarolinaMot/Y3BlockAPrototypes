@@ -22,15 +22,19 @@ SHADER_PARAMETER(float, NoiseStrength)
 SHADER_PARAMETER(float, FogMovementSpeed)
 SHADER_PARAMETER(float, FogDensity)
 SHADER_PARAMETER(float, FogFar)
+SHADER_PARAMETER(float, FogNear)
 SHADER_PARAMETER(float, FogNoiseScale)
 SHADER_PARAMETER(uint32_t, DebugLines)
+SHADER_PARAMETER(float, CircleRadius)
+SHADER_PARAMETER(FVector2f, CircleCenter)
+SHADER_PARAMETER(float, EdgeBlend)
 SHADER_PARAMETER_STRUCT(FScreenPassTextureViewportParameters, ViewParams)
 RENDER_TARGET_BINDING_SLOTS()
 END_SHADER_PARAMETER_STRUCT()
 
 class FAuraShaderPS : public FGlobalShader {
 public:
-	DECLARE_EXPORTED_SHADER_TYPE(FAuraShaderPS, Global, );
+	DECLARE_EXPORTED_SHADER_TYPE(FAuraShaderPS, Global,);
 	using FParameters = FAuraShaderParameters;
 	SHADER_USE_PARAMETER_STRUCT(FAuraShaderPS, FGlobalShader);
 };

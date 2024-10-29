@@ -17,5 +17,4 @@ void FPrototypesModule::StartupModule()
 
 void FPrototypesModule::ShutdownModule(){}
 
-//IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, ShaderBits, "ShaderBits" );
 IMPLEMENT_PRIMARY_GAME_MODULE(FPrototypesModule, Prototypes, "Prototypes"); // edit this!

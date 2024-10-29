@@ -863,6 +863,7 @@
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\engine\\public\\showflagsvalues.inl",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\engine\\public\\stereorendering.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\public\\screenpass.inl",
+            "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\source\\custommodule\\public\\aurashader.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\rendercore\\public\\pixelshaderutils.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\rendercore\\public\\globalrenderresources.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\private\\postprocess\\postprocessing.h",
@@ -1012,7 +1013,6 @@
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\private\\pathtracing.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\internal\\pathtracingresources.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\renderer\\internal\\postprocess\\postprocessinputs.h",
-            "d:\\github\\univertsity\\y3a-prototype\\prototypes 5.4\\source\\custommodule\\public\\hologramshader.h",
             "d:\\github\\ue5\\unrealengine\\engine\\source\\runtime\\engine\\public\\materials\\materialrenderproxy.h"
         ],
         "ImportedModules": [],

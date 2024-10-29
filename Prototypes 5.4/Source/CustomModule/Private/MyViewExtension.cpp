@@ -121,15 +121,23 @@ void FMyViewExtension::SetNoiseTexture(UTexture2D* tex)
 	NoiseTex = tex;
 }
 
-void FMyViewExtension::SetFogParameters(UTexture2D* fogNoise, float fogFar, float fogDensity, float fogMovementSpeed, float fogNoiseScale, const FLinearColor& fogColor, const FLinearColor& fogSmokeColor)
+void FMyViewExtension::SetFogParameters(UTexture2D* fogNoise, float fogFar, float fogNear, float fogDensity, float fogMovementSpeed, float fogNoiseScale, const FLinearColor& fogColor, const FLinearColor& fogSmokeColor)
 {
 	FogNoise = fogNoise;
 	FogFar = fogFar;
+	FogNear = fogNear;
 	FogDensity = fogDensity;
 	FogMovementSpeed = fogMovementSpeed;
 	FogColor = fogColor;
 	FogSmokeColor = fogSmokeColor;
 	FogNoiseScale = fogNoiseScale;
+}
+
+void FMyViewExtension::SetEffectRadius(float circleRadius, FVector2f cirlceCenter, float circleEdge)
+{
+	CircleRadius = circleRadius;
+	CircleCenter = cirlceCenter;
+	CircleBlend = circleEdge;
 }
 
 const void FMyViewExtension::RenderCustomStencil(FRDGBuilder& GraphBuilder, const FSceneView& View, const FPostProcessingInputs& Inputs) const
@@ -184,6 +192,18 @@ const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const F
 	// Viewport parameters
 	const FScreenPassTextureViewport SceneColorTextureViewport(SceneColor);
 	const FScreenPassTextureViewportParameters SceneTextureViewportParams = GetTextureViewportParameters(SceneColorTextureViewport);
+	const FViewMatrices& ViewMatrices = View.ViewMatrices;
+	FMatrix ProjectionMatrixDouble = ViewMatrices.GetProjectionMatrix();
+
+	// Convert to FMatrix44f (single precision)
+	FMatrix44f ProjectionMatrix;
+	for (int32 Row = 0; Row < 4; ++Row)
+	{
+		for (int32 Col = 0; Col < 4; ++Col)
+		{
+			ProjectionMatrix.M[Row][Col] = static_cast<float>(ProjectionMatrixDouble.M[Row][Col]);
+		}
+	}
 
 	// Render targets
 	FScreenPassRenderTarget SceneColorCopyRenderTarget;
@@ -218,8 +238,12 @@ const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const F
 	AuraParameters->FogMovementSpeed = FogMovementSpeed;
 	AuraParameters->FogDensity = FogDensity;
 	AuraParameters->FogFar = FogFar;
+	AuraParameters->FogNear = FogNear;
 	AuraParameters->FogNoiseScale = FogNoiseScale;
 	AuraParameters->DebugLines = DebugLines;
+	AuraParameters->CircleCenter = CircleCenter;
+	AuraParameters->CircleRadius = CircleRadius;
+	AuraParameters->EdgeBlend = CircleBlend;
 	AuraParameters->Noise = noiseTexture;
 	AuraParameters->FogNoise = fogTex;
 	AuraParameters->ViewParams = SceneTextureViewportParams;

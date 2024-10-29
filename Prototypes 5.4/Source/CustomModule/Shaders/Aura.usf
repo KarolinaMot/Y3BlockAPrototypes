@@ -24,7 +24,11 @@ float FogMovementSpeed;
 float FogDensity;
 float FogNoiseScale;
 float FogFar;
+float FogNear;
 uint DebugLines;
+float CircleRadius;
+float2 CircleCenter;
+float EdgeBlend;
 
 float2 PosToUV(float2 Pos);
 float Edge(float2 uv);
@@ -44,21 +48,27 @@ float4 AuraMainPS(float4 SvPosition : SV_POSITION) : SV_Target0
        return edge >= DepthBias ? edge * LineColor : float4(0.f, 0.f, 0.f, 1.f);
     
     float3 edgeColor = LineColor.rgb * noise * NoiseStrength * edge;
-    return edge >= DepthBias ? float4(edgeColor + fog, 1.f) : float4(fog, 1.f);
-    //return float4(fog, 1.f);
+    float3 auraResult = edge >= DepthBias ? edgeColor + fog : fog;
+    
+    // Calculate distance from the pixel to the circle center
+    float distance = length(ScreenUV - CircleCenter);
+    float alpha = smoothstep(CircleRadius, CircleRadius - EdgeBlend, distance);
+    return float4(lerp(auraResult, sceneColor.rgb, alpha), 1.f);
+    
 }
 
 float3 GetFog(float2 uv, float3 sceneColor)
 {
-    float sceneDepth = SceneDepth.Sample(InputSampler, uv);
-    float depthFog = smoothstep(0.f, FogFar, sceneDepth);
-    float finalFogIntensity = saturate(1 - depthFog * FogDensity);
+    float sceneDepth = 1 / SceneDepth.Sample(InputSampler, uv).r;
+    float fogFactor = saturate((sceneDepth - FogNear) / (FogFar - FogNear));
+    float fogValue = saturate(fogFactor);
     
     float2 fogUV = uv * FogNoiseScale + float2(0.f, FogMovementSpeed) * Time;
     float3 noise = FogNoise.Sample(InputSampler, fogUV);
-    
+
     float3 fogRes = FogColor.rgb + noise * FogSmokeColor.rgb;
-    float3 finalColor = lerp(sceneColor, fogRes, finalFogIntensity);
+    float3 finalColor = lerp(sceneColor, fogRes, fogValue);
+    finalColor = lerp(finalColor, FogColor.rgb, FogDensity);
     return finalColor;
 }
 
@@ -71,7 +81,7 @@ float2 PosToUV(float2 Pos)
 
 float2 GetMovementDirection(float2 uv)
 {
-    float2 result = float2(-1.f, -1.f);
+    float2 result = float2(1.f, 1.f);
     if (uv.x < 0.5f)
         result.x *= -1;
     if (uv.y < 0.5f)
