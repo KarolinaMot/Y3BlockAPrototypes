@@ -22,7 +22,7 @@ struct NVisionShader
         float2 offset1 = float2(-offsetValue, -offsetValue); // First offset
 
         float4 offsetResult = originalColor;
-        offsetResult += GetColor(clamp((uv + offset1) / (1 + strength), float2(0.f, 0.f), float2(1.f, 1.f)));
+        offsetResult += GetColor(clamp((uv + offset1), float2(0.f, 0.f), float2(1.f, 1.f)));
         
         return offsetResult*0.5;
     }

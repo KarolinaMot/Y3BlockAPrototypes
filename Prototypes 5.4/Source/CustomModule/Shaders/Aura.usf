@@ -81,7 +81,7 @@ float2 PosToUV(float2 Pos)
 
 float2 GetMovementDirection(float2 uv)
 {
-    float2 result = float2(1.f, 1.f);
+    float2 result = float2(-1.f, -1.f);
     if (uv.x < 0.5f)
         result.x *= -1;
     if (uv.y < 0.5f)
