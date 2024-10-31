@@ -39,7 +39,7 @@ struct Z_Construct_UClass_ACustomPass_Statics
 		{ "Category", "Edge parameters" },
 		{ "ModuleRelativePath", "CustomPass.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TendrilEdgeColor_MetaData[] = {
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_EdgeColor_MetaData[] = {
 		{ "Category", "Edge parameters" },
 		{ "ModuleRelativePath", "CustomPass.h" },
 	};
@@ -118,7 +118,7 @@ struct Z_Construct_UClass_ACustomPass_Statics
 #endif // WITH_METADATA
 	static void NewProp_DebugLines_SetBit(void* Obj);
 	static const UECodeGen_Private::FBoolPropertyParams NewProp_DebugLines;
-	static const UECodeGen_Private::FStructPropertyParams NewProp_TendrilEdgeColor;
+	static const UECodeGen_Private::FStructPropertyParams NewProp_EdgeColor;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_DepthBias;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_EdgeThickness;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_EdgeIntensity;
@@ -149,7 +149,7 @@ void Z_Construct_UClass_ACustomPass_Statics::NewProp_DebugLines_SetBit(void* Obj
 	((ACustomPass*)Obj)->DebugLines = 1;
 }
 const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ACustomPass_Statics::NewProp_DebugLines = { "DebugLines", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(ACustomPass), &Z_Construct_UClass_ACustomPass_Statics::NewProp_DebugLines_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DebugLines_MetaData), NewProp_DebugLines_MetaData) };
-const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ACustomPass_Statics::NewProp_TendrilEdgeColor = { "TendrilEdgeColor", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ACustomPass, TendrilEdgeColor), Z_Construct_UScriptStruct_FLinearColor, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TendrilEdgeColor_MetaData), NewProp_TendrilEdgeColor_MetaData) };
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ACustomPass_Statics::NewProp_EdgeColor = { "EdgeColor", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ACustomPass, EdgeColor), Z_Construct_UScriptStruct_FLinearColor, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EdgeColor_MetaData), NewProp_EdgeColor_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ACustomPass_Statics::NewProp_DepthBias = { "DepthBias", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ACustomPass, DepthBias), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DepthBias_MetaData), NewProp_DepthBias_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ACustomPass_Statics::NewProp_EdgeThickness = { "EdgeThickness", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ACustomPass, EdgeThickness), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EdgeThickness_MetaData), NewProp_EdgeThickness_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ACustomPass_Statics::NewProp_EdgeIntensity = { "EdgeIntensity", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ACustomPass, EdgeIntensity), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EdgeIntensity_MetaData), NewProp_EdgeIntensity_MetaData) };
@@ -170,7 +170,7 @@ const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ACustomPass_Sta
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ACustomPass_Statics::NewProp_CircleCenter = { "CircleCenter", nullptr, (EPropertyFlags)0x0010000000000005, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ACustomPass, CircleCenter), Z_Construct_UScriptStruct_FVector2f, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CircleCenter_MetaData), NewProp_CircleCenter_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ACustomPass_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACustomPass_Statics::NewProp_DebugLines,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACustomPass_Statics::NewProp_TendrilEdgeColor,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACustomPass_Statics::NewProp_EdgeColor,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACustomPass_Statics::NewProp_DepthBias,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACustomPass_Statics::NewProp_EdgeThickness,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACustomPass_Statics::NewProp_EdgeIntensity,
@@ -231,10 +231,10 @@ ACustomPass::~ACustomPass() {}
 struct Z_CompiledInDeferFile_FID_Univertsity_Y3A_Prototype_Prototypes_5_4_Source_Prototypes_CustomPass_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ACustomPass, ACustomPass::StaticClass, TEXT("ACustomPass"), &Z_Registration_Info_UClass_ACustomPass, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ACustomPass), 2587112164U) },
+		{ Z_Construct_UClass_ACustomPass, ACustomPass::StaticClass, TEXT("ACustomPass"), &Z_Registration_Info_UClass_ACustomPass, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ACustomPass), 3985154208U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Univertsity_Y3A_Prototype_Prototypes_5_4_Source_Prototypes_CustomPass_h_224950582(TEXT("/Script/Prototypes"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Univertsity_Y3A_Prototype_Prototypes_5_4_Source_Prototypes_CustomPass_h_1004307756(TEXT("/Script/Prototypes"),
 	Z_CompiledInDeferFile_FID_Univertsity_Y3A_Prototype_Prototypes_5_4_Source_Prototypes_CustomPass_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Univertsity_Y3A_Prototype_Prototypes_5_4_Source_Prototypes_CustomPass_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

@@ -43,10 +43,7 @@ struct DetectEdges
 
             float2 offsetUV = float2(uv.x + offsetX, uv.y + offsetY);
             
-
             float depth = GetDepth(offsetUV, depthPrecision);
-            float3 normal = GetNormal(offsetUV);
-            float3 sampledIntensity = float3(normal.x, normal.y, depth);
             gradients+= sobelMatrix[i] * depth;
         }
 

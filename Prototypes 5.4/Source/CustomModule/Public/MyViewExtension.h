@@ -21,7 +21,6 @@ public:
 	void SetDepthBias(const float& bias);
 	void SetEdgeThickness(const float& thickness);
 	void SetEdgeIntensity(const float& intensity);
-	void SetSceneDepthSize(const float& size);
 	void SetNoiseSize(const float& size);
 	void SetNoiseStrength(const float& strength);
 	void SetTime(const float& time);
@@ -42,7 +41,6 @@ private:
 	float DepthBias;
 	float EdgeThickness;
 	float EdgeIntensity;
-	float SceneDepthSize;
 	float NoiseSize;
 	float Time = 0;
 	float MovementSpeed;

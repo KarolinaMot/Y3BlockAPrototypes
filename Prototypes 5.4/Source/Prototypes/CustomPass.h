@@ -25,7 +25,7 @@ public:
 	bool DebugLines = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edge parameters")
-	FLinearColor TendrilEdgeColor = FLinearColor(1.000000, 0.177356, 0.000000, 1.000000);
+	FLinearColor EdgeColor = FLinearColor(1.000000, 0.177356, 0.000000, 1.000000);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Edge parameters")
 	float DepthBias = 0.75f;

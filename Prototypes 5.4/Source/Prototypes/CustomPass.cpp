@@ -23,7 +23,7 @@ ACustomPass::ACustomPass()
 void ACustomPass::BeginPlay()
 {
 	Super::BeginPlay();
-	MyViewExtension = FSceneViewExtensions::NewExtension<FMyViewExtension>(TendrilEdgeColor, DepthBias, EdgeThickness, EdgeIntensity, NoiseSize, NoiseStrength, NoiseMovementSpeed, NoiseTex);
+	MyViewExtension = FSceneViewExtensions::NewExtension<FMyViewExtension>(EdgeColor, DepthBias, EdgeThickness, EdgeIntensity, NoiseSize, NoiseStrength, NoiseMovementSpeed, NoiseTex);
 }
 
 void ACustomPass::OnConstruction(const FTransform & Transform)
@@ -37,7 +37,7 @@ void ACustomPass::Tick(float DeltaTime)
 	MyViewExtension->SetDepthBias(DepthBias);
 	MyViewExtension->SetEdgeThickness(EdgeThickness);
 	MyViewExtension->SetEdgeIntensity(EdgeIntensity);
-	MyViewExtension->SetTendrilEdgeColor(TendrilEdgeColor);
+	MyViewExtension->SetTendrilEdgeColor(EdgeColor);
 	MyViewExtension->SetNoiseStrength(NoiseStrength);
 	MyViewExtension->SetNoiseSize(NoiseSize);
 	MyViewExtension->SetDebugLines(DebugLines);

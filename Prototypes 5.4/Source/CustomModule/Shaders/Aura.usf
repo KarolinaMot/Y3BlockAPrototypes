@@ -15,7 +15,6 @@ float4 FogSmokeColor;
 float EdgeThickness;
 float EdgeIntensity;
 float DepthBias;
-float SceneDepthSize;
 float NoiseSize;
 float NoiseStrength;
 float Time;
@@ -37,37 +36,53 @@ float3 GetFog(float2 uv, float3 sceneColor);
 
 float4 AuraMainPS(float4 SvPosition : SV_POSITION) : SV_Target0
 {
+    // Convert screen position to UV coordinates for sampling
     float2 ScreenUV = PosToUV(SvPosition).xy;
+
+    // Calculate edge intensity
     float edge = saturate(Edge(ScreenUV));
+
+    // Sample the base scene color at ScreenUV
     float4 sceneColor = SceneColor.SampleLevel(InputSampler, ScreenUV, 0);
+
+    // Calculate animated noise offset for dynamic effect
     float2 noiseMovementVelocity = GetMovementDirection(ScreenUV) * MovementSpeed * Time;
     float noise = Noise.SampleLevel(InputSampler, ScreenUV * NoiseSize + noiseMovementVelocity, 0).r;
+
+    // Compute fog effect based on scene depth
     float3 fog = GetFog(ScreenUV, sceneColor.rgb);
-    
-    if(DebugLines)
-       return edge >= DepthBias ? edge * LineColor : float4(0.f, 0.f, 0.f, 1.f);
-    
+
+    // Debug mode to visualize edges
+    if (DebugLines)
+        return edge >= DepthBias ? edge * LineColor : float4(0.f, 0.f, 0.f, 1.f);
+
+    // Calculate edge color with noise modulation
     float3 edgeColor = LineColor.rgb * noise * NoiseStrength * edge;
+
+    // Final aura result combining edge color and fog
     float3 auraResult = edge >= DepthBias ? edgeColor + fog : fog;
-    
-    // Calculate distance from the pixel to the circle center
+
+    // Calculate circular fade effect to blend aura with the scene
     float distance = length(ScreenUV - CircleCenter);
     float alpha = smoothstep(CircleRadius, CircleRadius - EdgeBlend, distance);
     return float4(lerp(auraResult, sceneColor.rgb, alpha), 1.f);
-    
 }
 
 float3 GetFog(float2 uv, float3 sceneColor)
 {
+    // Adjust depth for fog calculations
+    //UE5 scene depth texture needs to be inverted as in this case
+    //the further the objects are, the darker they are.
     float sceneDepth = 1 / SceneDepth.Sample(InputSampler, uv).r;
     float fogFactor = saturate((sceneDepth - FogNear) / (FogFar - FogNear));
-    float fogValue = saturate(fogFactor);
-    
+
+    // Sample fog noise and calculate fog result color
     float2 fogUV = uv * FogNoiseScale + float2(0.f, FogMovementSpeed) * Time;
     float3 noise = FogNoise.Sample(InputSampler, fogUV);
 
+    // Blend fog colors and add density control
     float3 fogRes = FogColor.rgb + noise * FogSmokeColor.rgb;
-    float3 finalColor = lerp(sceneColor, fogRes, fogValue);
+    float3 finalColor = lerp(sceneColor, fogRes, fogFactor);
     finalColor = lerp(finalColor, FogColor.rgb, FogDensity);
     return finalColor;
 }
@@ -79,44 +94,35 @@ float2 PosToUV(float2 Pos)
     return ViewportUV * ViewParams_UVViewportSize + ViewParams_UVViewportMin;
 }
 
+// Set direction based on position in the screen space
 float2 GetMovementDirection(float2 uv)
 {
-    float2 result = float2(-1.f, -1.f);
-    if (uv.x < 0.5f)
-        result.x *= -1;
-    if (uv.y < 0.5f)
-        result.y *= -1;
-
-    return result;
+    return float2(uv.x < 0.5f ? 1.f : -1.f, uv.y < 0.5f ? 1.f : -1.f);
 }
 
 float Edge(float2 uv)
 {
+    // Set pixel size for edge detection based on viewport size and edge thickness
     float2 pixelSize = EdgeThickness / ViewParams_ViewportSize;
+
+    // Define 3x3 matrix for Sobel edge detection
     float2 sobelMatrix[9] =
     {
         float2(-1, -0.5f), float2(0, -1), float2(1, -0.5f),
         float2(-1, 0), float2(0, 0), float2(1, 0),
         float2(-1, 0.5f), float2(0, 1), float2(1, 0.5f)
     };
-        
-    float2 gradients = float2(0.f, 0.f);
 
+    // Calculate depth gradients using the Sobel matrix for edge intensity
+    float2 gradients = float2(0.f, 0.f);
     for (int i = 0; i < 9; i++)
     {
-        int row = i / 3;
-        int col = i % 3;
-
-        float offsetX = (col - 1) * pixelSize.x;
-        float offsetY = (row - 1) * pixelSize.y;
-
-        float2 offsetUV = float2(uv.x + offsetX, uv.y + offsetY);
-           
-        float depth = SceneDepth.SampleLevel(InputSampler, offsetUV, 0);
-        gradients += sobelMatrix[i] * depth;
+        // Calculate offset UV once per pixel
+        float2 offsetUV = uv + float2((i % 3 - 1) * pixelSize.x, (i / 3 - 1) * pixelSize.y);
+        // Depth sample per matrix entry
+        gradients += sobelMatrix[i] * SceneDepth.SampleLevel(InputSampler, offsetUV, 0).r; 
     }
 
-    gradients *= EdgeIntensity;
-
-    return length(gradients);
+    // Apply edge intensity and return the length of the gradient vector for edge strength
+    return length(gradients * EdgeIntensity);
 }

@@ -6,8 +6,12 @@
 #include "PostProcess/PostProcessing.h"
 #include "Materials/MaterialRenderProxy.h"
 
-// Yoinked from Engine\Plugins\Experimental\ColorCorrectRegions\Source\ColorCorrectRegions\Private\ColorCorrectRegionsSceneViewExtension.cpp
-// This is how it appears in Unreal 5.0.3 - in UE4 it uses FVector2D instead of FVector2f but is otherwise identical
+#include "RenderGraphUtils.h"
+#include "RenderGraphResources.h"
+#include "Engine/Texture2D.h"
+#include "RHIResources.h"
+
+// From Engine\Plugins\Experimental\ColorCorrectRegions\Source\ColorCorrectRegions\Private\ColorCorrectRegionsSceneViewExtension.cpp
 FScreenPassTextureViewportParameters GetTextureViewportParameters(const FScreenPassTextureViewport& InViewport) {
 	const FVector2f Extent(InViewport.Extent);
 	const FVector2f ViewportMin(InViewport.Rect.Min.X, InViewport.Rect.Min.Y);
@@ -84,11 +88,6 @@ void FMyViewExtension::SetEdgeThickness(const float& thickness)
 void FMyViewExtension::SetEdgeIntensity(const float& intensity)
 {
 	EdgeIntensity = intensity;
-}
-
-void FMyViewExtension::SetSceneDepthSize(const float& size)
-{
-	SceneDepthSize = size;
 }
 
 void FMyViewExtension::SetNoiseSize(const float& size)
@@ -212,6 +211,7 @@ const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const F
 	UVMaskRenderTarget.Texture = GraphBuilder.CreateTexture((*Inputs.SceneTextures)->SceneColorTexture->Desc, TEXT("UV Mask"));
 	FTextureResource* TextureResource = NoiseTex->GetResource();
 	FTextureRHIRef TextureRHI = TextureResource->TextureRHI;
+
 	auto noiseTexture = GraphBuilder.RegisterExternalTexture(CreateRenderTarget(TextureRHI, TEXT("NoiseTexture")));
 
 	FTextureResource* FogTextureRes = FogNoise->GetResource();
@@ -228,7 +228,6 @@ const void FMyViewExtension::RenderAuraEffect(FRDGBuilder& GraphBuilder, const F
 	AuraParameters->FogSmokeColor = FogSmokeColor;
 	AuraParameters->FogColor = FogColor;
 	AuraParameters->DepthBias = DepthBias;
-	AuraParameters->SceneDepthSize = SceneDepthSize;
 	AuraParameters->EdgeThickness = EdgeThickness;
 	AuraParameters->EdgeIntensity = EdgeIntensity;
 	AuraParameters->NoiseSize = NoiseSize;

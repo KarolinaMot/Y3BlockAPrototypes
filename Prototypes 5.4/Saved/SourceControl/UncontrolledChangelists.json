@@ -13,7 +13,11 @@
 				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/MedievalDungeon/Maps/Demonstration.umap",
 				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Niagara/Electricity/M_Spiral.uasset",
 				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Niagara/MagicBeam/NS_BeamEMITTER.uasset",
-				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Meshes/BP_CustomPass.uasset"
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Meshes/BP_CustomPass.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Materials/M_Aura.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Materials/M_Fog.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Materials/M_Fog_Inst.uasset",
+				"D:/GITHUB/Univertsity/Y3A-Prototype/Prototypes 5.4/Content/Materials/M_Aura_Inst.uasset"
 			]
 		}
 	]

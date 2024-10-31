@@ -3,7 +3,6 @@ struct DistortionShader
 
     float3 GetColor(float2 uv)
     {
-
         float4 SceneTexture = SceneTextureLookup(uv, 14, false);
 
         return SceneTexture.rgb;
